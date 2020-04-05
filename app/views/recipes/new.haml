@@ -5,12 +5,6 @@
     = text_field_tag(:title)
     = label_tag(:description, "Description")
     = text_area_tag(:description, '')
-
-    = label_tag(:image, "Image")
-    = file_field_tag(:image)
-
     = label_tag(:date_published, "Date Published")
     = date_field_tag(:date_published)
-    = label_tag(:publish)
-    = check_box_tag(:publish)
     = submit_tag("Update")
