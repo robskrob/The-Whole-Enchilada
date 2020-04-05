@@ -1,10 +1,10 @@
 %main.recipes
   %h1 new
-  = form_with(url: "/recipes", method: "post") do
-    = label_tag(:title, "Title")
-    = text_field_tag(:title)
-    = label_tag(:description, "Description")
-    = text_area_tag(:description, '')
-    = label_tag(:date_published, "Date Published")
-    = date_field_tag(:date_published)
-    = submit_tag("Update")
+  = form_with(model: @recipe, method: "post") do |form|
+    = form.label(:title, "Title")
+    = form.text_field(:title)
+    = form.label(:description, "Description")
+    = form.text_area(:description)
+    = form.label(:date_published, "Date Published")
+    = form.date_field(:date_published)
+    = form.submit("create")
