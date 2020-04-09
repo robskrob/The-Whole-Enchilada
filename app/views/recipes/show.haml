@@ -1,5 +1,5 @@
 %h2 viewing the recipe
 = @recipe.to_json
-- @recipe.images.each do |image|
-  = image_tag url_for(image)
+- @recipe.images.with_attached_file.each do |image|
+  = image_tag url_for(image.file)
 
