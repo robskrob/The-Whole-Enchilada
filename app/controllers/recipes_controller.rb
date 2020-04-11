@@ -48,10 +48,5 @@ class RecipesController < ApplicationController
     end
 
     render :edit
-#    photo = './images/marley_spoon_recipe.png'
-#    path = File.expand_path(photo)  expand path relative to the current directory
-#
-#    image = RTesseract.new(path)
-#    text = image.to_s
   end
 end
