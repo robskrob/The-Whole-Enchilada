@@ -1,6 +1,5 @@
 %main.recipes
   %h1 edit
-
   = form_with(model: @recipe, method: "patch") do |form|
     = form.label(:title, "Title")
     = form.text_field(:title)
