@@ -13,6 +13,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'pg', '1.2.3'
 gem 'rtesseract', '3.1'
+gem 'sidekiq', '6.0.6'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
