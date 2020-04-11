@@ -1,5 +1,6 @@
 %h2 viewing the recipe
 = @recipe.to_json
+= image_tag('chicken_adobo_recipe.jpg')
 - @recipe.images.with_attached_file.each do |image|
   = image_tag url_for(image.file)
 
