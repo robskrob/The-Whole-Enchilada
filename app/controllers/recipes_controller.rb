@@ -1,8 +1,4 @@
 class RecipesController < ApplicationController
-  def new
-    @recipe = Recipe.new
-  end
-
   def create
     @recipe = Recipe.new(
       title: params[:recipe][:title],
@@ -25,7 +21,37 @@ class RecipesController < ApplicationController
     redirect_to @recipe
   end
 
+  def edit
+    @recipe = Recipe.find(params[:id])
+    @text = []
+  end
+
+  def new
+    @recipe = Recipe.new
+  end
+
   def show
     @recipe = Recipe.find(params[:id])
+  end
+
+  def update
+    @recipe = Recipe.find(params[:id])
+
+    file = params[:recipe][:images][:file]
+    path = File.expand_path(file.path)
+    image = RTesseract.new(path)
+
+    @text = image.to_s
+
+    @text.split("\n").each do |line|
+      puts "#{line}"
+    end
+
+    render :edit
+#    photo = './images/marley_spoon_recipe.png'
+#    path = File.expand_path(photo)  expand path relative to the current directory
+#
+#    image = RTesseract.new(path)
+#    text = image.to_s
   end
 end

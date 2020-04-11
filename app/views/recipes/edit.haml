@@ -1,0 +1,14 @@
+%main.recipes
+  %h1 edit
+  = form_with(model: @recipe, method: "patch") do |form|
+    = form.label(:title, "Title")
+    = form.text_field(:title)
+    = form.label(:description, "Description")
+    = form.text_area(:description)
+    = form.fields_for :images do |image_builder|
+      = form.label(:text_processed, "Process Text On Image")
+      = image_builder.check_box :text_processed
+      = image_builder.file_field :file
+    = form.label(:date_published, "Date Published")
+    = form.date_field(:date_published)
+    = form.submit("update")
