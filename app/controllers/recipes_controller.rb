@@ -46,14 +46,6 @@ class RecipesController < ApplicationController
       content_type: file.content_type
     )
 
-#    image = RTesseract.new(path)
-#
-#    @text = image.to_s
-#
-#    @text.split("\n").each do |line|
-#      puts "#{line}"
-#    end
-
     redirect_to @recipe
   end
 end
