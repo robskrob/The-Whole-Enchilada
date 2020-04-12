@@ -14,6 +14,11 @@ gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'pg', '1.2.3'
 gem 'rtesseract', '3.1'
 gem 'sidekiq', '6.0.6'
+gem 'dotenv-rails', '2.7.5'
+
+group :production do
+  gem 'aws-sdk-s3', '1.61.2'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

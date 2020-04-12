@@ -37,16 +37,23 @@ class RecipesController < ApplicationController
   def update
     @recipe = Recipe.find(params[:id])
 
+    image = @recipe.images.create
     file = params[:recipe][:images][:file]
-    path = File.expand_path(file.path)
-    image = RTesseract.new(path)
 
-    @text = image.to_s
+    image.file.attach(
+      io: File.open(file.path),
+      filename: file.original_filename,
+      content_type: file.content_type
+    )
 
-    @text.split("\n").each do |line|
-      puts "#{line}"
-    end
+#    image = RTesseract.new(path)
+#
+#    @text = image.to_s
+#
+#    @text.split("\n").each do |line|
+#      puts "#{line}"
+#    end
 
-    render :edit
+    redirect_to @recipe
   end
 end
