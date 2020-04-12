@@ -4,7 +4,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.5'
 
 gem 'rails', '~> 6.0.1'
-gem 'sqlite3', '~> 1.4'
 gem 'puma', '~> 4.1'
 gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 4.0'
@@ -13,10 +12,18 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'pg', '1.2.3'
+gem 'rtesseract', '3.1'
+gem 'sidekiq', '6.0.6'
+gem 'dotenv-rails', '2.7.5'
+
+group :production do
+  gem 'aws-sdk-s3', '1.61.2'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'awesome_print'
 end
 
 group :development do

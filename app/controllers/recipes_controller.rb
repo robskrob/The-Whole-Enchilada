@@ -1,8 +1,4 @@
 class RecipesController < ApplicationController
-  def new
-    @recipe = Recipe.new
-  end
-
   def create
     @recipe = Recipe.new(
       title: params[:recipe][:title],
@@ -25,7 +21,31 @@ class RecipesController < ApplicationController
     redirect_to @recipe
   end
 
+  def edit
+    @recipe = Recipe.find(params[:id])
+    @text = []
+  end
+
+  def new
+    @recipe = Recipe.new
+  end
+
   def show
     @recipe = Recipe.find(params[:id])
+  end
+
+  def update
+    @recipe = Recipe.find(params[:id])
+
+    image = @recipe.images.create
+    file = params[:recipe][:images][:file]
+
+    image.file.attach(
+      io: File.open(file.path),
+      filename: file.original_filename,
+      content_type: file.content_type
+    )
+
+    redirect_to @recipe
   end
 end
