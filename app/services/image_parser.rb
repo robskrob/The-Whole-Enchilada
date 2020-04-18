@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class ImageParser
   def initialize(image)
     @image = image
@@ -9,7 +11,7 @@ class ImageParser
 
     file_name = blob.filename.to_param
 
-    tmp_path = "#{Rails.root}/tmp/storage/#{file_name}.#{file_extension(blob.content_type)}"
+    tmp_path = "#{Rails.root}/tmp/storage/#{file_name}"
 
     open(tmp_path, 'wb') do |tmp_file|
       tmp_file << open(file.service_url).read

@@ -1,5 +1,3 @@
-require 'open-uri'
-
 class ImageTextParserWorker
   include Sidekiq::Worker
 

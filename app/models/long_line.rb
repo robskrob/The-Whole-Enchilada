@@ -1,4 +1,4 @@
-class Line
+class LongLine
   def initialize(image_id, recipe_id, text)
     @image_id = image_id
     @recipe_id = recipe_id
@@ -20,16 +20,16 @@ class Line
   end
 
   def is_long?
-    false
+    true
   end
 
   def is_standard_length?
-    true
+    false
   end
 
   def valid?
     trimmed  = text.to_s.strip
-    trimmed.present? && trimmed.length <= 500
+    trimmed.present? && trimmed.length > 500
   end
 
   private

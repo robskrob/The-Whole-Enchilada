@@ -1,17 +1,13 @@
-class Line
+class BlankLine
   def initialize(image_id, recipe_id, text)
     @image_id = image_id
     @recipe_id = recipe_id
     @text = text
   end
 
-  def can_create?
-    valid?
-  end
-
   def create
     {
-      content: text.strip,
+      content: text.to_s.strip,
       recipe_id: recipe_id,
       image_id: image_id,
       created_at: Time.now.utc,
@@ -19,17 +15,20 @@ class Line
     }
   end
 
+  def can_create?
+    true
+  end
+
   def is_long?
     false
   end
 
   def is_standard_length?
-    true
+    false
   end
 
   def valid?
-    trimmed  = text.to_s.strip
-    trimmed.present? && trimmed.length <= 500
+    false
   end
 
   private
