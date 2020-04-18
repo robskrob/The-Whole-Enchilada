@@ -5,20 +5,10 @@ class ImageTextParserWorker
 
   def perform(image_id)
     image = Image.find(image_id)
+    parser = ImageParser.new(image)
 
-    tmp_path = "#{Rails.root}/tmp/storage/name_of_file.jpg"
+    text = parser.generate_text
 
-    open(tmp_path, 'wb') do |file|
-      file << open(image.file.service_url).read
-    end
-
-    tesseract_image = RTesseract.new(tmp_path)
-
-    text = tesseract_image.to_s
-
-    text.split("\n").each do |line|
-      # save into parsed line rows
-      # potentially offload into another job(s)
-    end
+    ParsedLinesInserterWorker.perform_async(text, image.recipe_id, image.id)
   end
 end
