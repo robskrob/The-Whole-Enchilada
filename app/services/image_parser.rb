@@ -13,8 +13,12 @@ class ImageParser
 
     tmp_path = "#{Rails.root}/tmp/storage/#{file_name}"
 
-    open(tmp_path, 'wb') do |tmp_file|
-      tmp_file << open(file.service_url).read
+    # write file to temporary storage if it does NOT exist
+    # so that Tesseract has an image file to parse
+    if !File.exist?(tmp_path)
+      open(tmp_path, 'wb') do |tmp_file|
+        tmp_file << open(file.service_url).read
+      end
     end
 
     tesseract_image = RTesseract.new(tmp_path)
@@ -23,13 +27,6 @@ class ImageParser
   end
 
   private
-
-  def file_extension(content_type)
-    if content_type.strip == 'image/jpeg'
-      'jpg'
-    end
-  end
-
 
   attr_accessor :image
 end
