@@ -1,0 +1,11 @@
+.RecipeView {
+  &__images-container {
+    display: flex;
+  }
+
+  &__parsed-lines-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+}

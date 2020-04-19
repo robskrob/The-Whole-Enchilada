@@ -23,7 +23,13 @@ class ImageParser
 
     tesseract_image = RTesseract.new(tmp_path)
 
-    tesseract_image.to_s
+    text = tesseract_image.to_s
+
+    if text.present?
+      image.update(text_processed: true)
+    end
+
+    text
   end
 
   private

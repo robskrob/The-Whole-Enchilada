@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_18_183601) do
+ActiveRecord::Schema.define(version: 2020_04_19_215128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_183601) do
     t.bigint "image_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "deleted", default: false
     t.index ["image_id"], name: "index_parsed_lines_on_image_id"
     t.index ["recipe_id"], name: "index_parsed_lines_on_recipe_id"
   end
@@ -60,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_183601) do
     t.bigint "image_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "deleted", default: false
     t.index ["image_id"], name: "index_parsed_long_lines_on_image_id"
     t.index ["recipe_id"], name: "index_parsed_long_lines_on_recipe_id"
   end

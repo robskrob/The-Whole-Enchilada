@@ -3,10 +3,13 @@ class ImageTextParserWorker
 
   def perform(image_id)
     image = Image.find(image_id)
-    parser = ImageParser.new(image)
 
-    text = parser.generate_text
+    if image.present?
+      parser = ImageParser.new(image)
 
-    ParsedLinesInserterWorker.perform_async(text, image.recipe_id, image.id)
+      text = parser.generate_text
+
+      ParsedLinesInserterWorker.perform_async(text, image.recipe_id, image.id)
+    end
   end
 end

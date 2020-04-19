@@ -4,5 +4,10 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq'
 
-  resources :recipes, only: [:create, :delete, :edit, :index, :new, :show, :update]
+  resources :recipes, only: [:create, :delete, :edit, :index, :new, :show, :update] do
+    scope module: :recipes do
+      resources :images, only: [:update]
+      resources :parsed_lines, only: [:update]
+    end
+  end
 end
