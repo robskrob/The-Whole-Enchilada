@@ -2,15 +2,14 @@ class ImageTextParserWorker
   include Sidekiq::Worker
 
   def perform(image_id)
-#    image = Image.find(image_id)
-#
-#    image = RTesseract.new(image.path)
-#
-#    @text = image.to_s
-#
-#    @text.split("\n").each do |line|
-#      # save into parsed line rows
-#      # potentially offload into another job(s)
-#    end
+    image = Image.find(image_id)
+
+    if image.present?
+      parser = ImageParser.new(image)
+
+      text = parser.generate_text
+
+      ParsedLinesInserterWorker.perform_async(text, image.recipe_id, image.id)
+    end
   end
 end

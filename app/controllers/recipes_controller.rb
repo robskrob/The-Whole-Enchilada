@@ -35,16 +35,19 @@ class RecipesController < ApplicationController
   end
 
   def update
-    @recipe = Recipe.find(params[:id])
+    recipe_updater = RecipeUpdater.new({
+      recipe_id: params[:id],
+      recipe: {
+        published_at: params[:recipe][:date_published],
+        description: params[:recipe][:description],
+        title: params[:recipe][:title]
+      },
+      recipe_asset: params[:recipe][:images][:file],
+      recipe_image_saver: RecipeImageSaver,
+      recipe_attributes_saver: RecipeAttributesSaver
+    })
 
-    image = @recipe.images.create
-    file = params[:recipe][:images][:file]
-
-    image.file.attach(
-      io: File.open(file.path),
-      filename: file.original_filename,
-      content_type: file.content_type
-    )
+    @recipe = recipe_updater.coordinate
 
     redirect_to @recipe
   end

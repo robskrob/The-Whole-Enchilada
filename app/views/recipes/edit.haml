@@ -7,8 +7,15 @@
     = form.text_area(:description)
     = form.fields_for :images do |image_builder|
       = form.label(:text_processed, "Process Text On Image")
-      = image_builder.check_box :text_processed
       = image_builder.file_field :file
     = form.label(:date_published, "Date Published")
     = form.date_field(:date_published)
     = form.submit("update")
+
+
+
+.RecipeView__images-container
+  - @recipe.images.with_attached_file.each do |image|
+    .RecipeView__image-container
+      = image_tag url_for(image.file)
+
