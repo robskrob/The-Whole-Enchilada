@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_215128) do
+ActiveRecord::Schema.define(version: 2020_04_19_232501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 2020_04_19_215128) do
     t.index ["recipe_id"], name: "index_images_on_recipe_id"
   end
 
+  create_table "ingredients", force: :cascade do |t|
+    t.string "content", null: false
+    t.bigint "recipe_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
+  end
+
   create_table "parsed_lines", force: :cascade do |t|
     t.string "content", null: false
     t.bigint "recipe_id"
@@ -74,10 +82,30 @@ ActiveRecord::Schema.define(version: 2020_04_19_215128) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "steps", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "recipe_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "position", null: false
+    t.index ["recipe_id"], name: "index_steps_on_recipe_id"
+  end
+
+  create_table "tools", force: :cascade do |t|
+    t.string "content", null: false
+    t.bigint "recipe_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipe_id"], name: "index_tools_on_recipe_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "images", "recipes"
+  add_foreign_key "ingredients", "recipes"
   add_foreign_key "parsed_lines", "images"
   add_foreign_key "parsed_lines", "recipes"
   add_foreign_key "parsed_long_lines", "images"
   add_foreign_key "parsed_long_lines", "recipes"
+  add_foreign_key "steps", "recipes"
+  add_foreign_key "tools", "recipes"
 end

@@ -1,3 +1,11 @@
+%h2 editing recipe
+= @recipe.to_json
+
+- steps = @recipe.steps
+- step_options = steps.map do |step|
+  - number = step.position + 1
+  - [number.ordinalize, step.position]
+
 %main.recipes
   %h1 edit
   = form_with(model: @recipe, method: "patch") do |form|
@@ -12,10 +20,47 @@
     = form.date_field(:date_published)
     = form.submit("update")
 
+.RecipeView__parsed-lines-container
+  - @recipe.parsed_lines.each do |line|
+    .RecipeView__parsed-line-item-container
+      .RecipeView__parsed-line-text=line.content
+      - if line.deleted
+        Deleted true
+      - else
+        = link_to 'Delete line', recipe_parsed_line_path(@recipe, line, {type: line.class}), data: {confirm: 'Are you sure?'}, method: :patch, class: 'RecipeView__parsed-line-delete' 
 
+      .RecipeView__parsed-line-actions-container
+        .RecipeView__parsed-line-action-container
+          = label_tag 'Ingredient'
+          = check_box_tag :ingredient
+        .RecipeView__parsed-line-action-container
+          = label_tag 'Tool'
+          = check_box_tag :tool
+        .RecipeView__parsed-line-action-container
+          = label_tag 'Step'
+          = check_box_tag :step
+
+.RecipeView__builder-commands-container
+  .RecipeView__add-ingredients
+    = link_to 'Add selected ingredients to recipe'
+  .RecipeView__add-tools
+    = link_to 'Add selected tools to recipe'
+  .RecipeView__add-steps
+    = select_tag 'choose step', options_for_select(step_options)
+    = link_to 'Add selected ingredients'
+
+.RecipeView__steps-container
+  - steps.each do |step|
+    .RecipeView__step-item-container
+      .RecipeView__step-content
+        = step.content
 
 .RecipeView__images-container
   - @recipe.images.with_attached_file.each do |image|
     .RecipeView__image-container
       = image_tag url_for(image.file)
-
+      - if image.text_processed
+        .RecipeView__image-status
+          Image Has Been Parsed
+      - else
+        = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 

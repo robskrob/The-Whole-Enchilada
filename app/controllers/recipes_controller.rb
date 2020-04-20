@@ -47,8 +47,8 @@ class RecipesController < ApplicationController
       recipe_attributes_saver: RecipeAttributesSaver
     })
 
-    @recipe = recipe_updater.coordinate
+    recipe = recipe_updater.coordinate
 
-    redirect_to @recipe
+    redirect_to 'edit', id: recipe.id
   end
 end

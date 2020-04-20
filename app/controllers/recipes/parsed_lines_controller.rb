@@ -3,7 +3,7 @@ module Recipes
     def update
       params[:type].constantize.update(params[:id], deleted: true)
 
-      redirect_to recipe_path(params[:recipe_id])
+      redirect_to edit_recipe_path(params[:recipe_id])
     end
   end
 end
