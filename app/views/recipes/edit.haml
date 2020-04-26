@@ -2,10 +2,13 @@
   %h1 editing recipe
   = @recipe.to_json
 
+  - ingredients = @recipe.ingredients
   - steps = @recipe.steps
+  - tools = @recipe.tools
+
   - step_options = steps.map do |step|
     - number = step.position + 1
-    - [number.ordinalize, step.position]
+    - [number.ordinalize, step.id]
 
   = form_with(model: @recipe, method: "patch") do |form|
     = form.label(:title, "Title")
@@ -20,7 +23,7 @@
     = form.submit("update")
 
   .RecipeView__parsed-lines-container
-    - @recipe.parsed_lines.each do |line|
+    - @recipe.parsed_lines.where(deleted: false).each do |line|
       .RecipeView__parsed-line-item-container
         .RecipeView__parsed-line-text=line.content
         - if line.deleted
@@ -43,11 +46,26 @@
     .RecipeView__add-ingredients
       = link_to 'Add selected ingredients to recipe', '#', class: 'js-RecipeView__add-ingredients'
     .RecipeView__add-tools
-      = link_to 'Add selected tools to recipe'
-    .RecipeView__add-steps
+      = link_to 'Add selected tools to recipe', '#', class: 'js-RecipeView__add-tools'
+    .RecipeView__add-step
       = select_tag 'choose step', options_for_select(step_options)
-      = link_to 'Add selected ingredients'
+      = link_to 'Add selected lines to step', '#', class: 'js-RecipeView__add-step'
 
+  %h2 ingredients
+  .RecipeView__ingredients-container
+    - ingredients.each do |ingredient|
+      .RecipeView__ingredient-item-container
+        .RecipeView__ingredient-content
+          = ingredient.content
+
+  %h2 tools
+  .RecipeView__tools-container
+    - tools.each do |tool|
+      .RecipeView__tool-item-container
+        .RecipeView__tool-content
+          = tool.content
+
+  %h2 steps
   .RecipeView__steps-container
     - steps.each do |step|
       .RecipeView__step-item-container

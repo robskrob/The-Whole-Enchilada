@@ -1,27 +1,27 @@
 module Recipes
-  class IngredientsController < ApplicationController
+  class ToolsController < ApplicationController
     protect_from_forgery with: :exception, except: [:create], prepend: true
 
     def create
-      ingredients = ingredients_params.map do |ingredient|
+      tools = tools_params.map do |tool|
         {
-          content: ingredient[:content],
-          recipe_id: ingredient[:recipe_id],
+          content: tool[:content],
+          recipe_id: tool[:recipe_id],
           created_at: Time.now.utc,
           updated_at: Time.now.utc
         }
       end
 
       ParsedLine.where(id: parsed_lined_ids_params).update_all(deleted: true)
-      Ingredient.insert_all(ingredients)
+      Tool.insert_all(tools)
 
       render json: {success: true}
     end
 
     private
 
-    def ingredients_params
-      params.permit(ingredients: [:content, :recipe_id])[:ingredients]
+    def tools_params
+      params.permit(tools: [:content, :recipe_id])[:tools]
     end
 
     def parsed_lined_ids_params
