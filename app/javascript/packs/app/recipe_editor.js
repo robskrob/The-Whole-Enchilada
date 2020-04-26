@@ -4,6 +4,10 @@ document.addEventListener("turbolinks:load", (_event) => {
   if (document.querySelector(".js-RecipeEditor")) {
     document.querySelector('.js-RecipeView__add-ingredients').addEventListener('click', (event) => {
        let body = Array.from(document.querySelectorAll('.js-RecipeEditor__ingredient-checkbox:checked')).reduce((acc, ingredientCheckboxElement) => {
+         if (acc.recipe_id === 0 ) {
+           acc.recipe_id = ingredientCheckboxElement.dataset.recipeId
+         }
+
          acc.ingredients.push({
            content: ingredientCheckboxElement.dataset.content,
            recipe_id: ingredientCheckboxElement.dataset.recipeId
@@ -12,10 +16,10 @@ document.addEventListener("turbolinks:load", (_event) => {
          acc.parsed_line_ids.push(ingredientCheckboxElement.value)
 
          return acc
-       }, {ingredients: [], parsed_line_ids: []})
+       }, {ingredients: [], parsed_line_ids: [], recipe_id: 0})
 
       postJson(
-        '/recipes/4/ingredients', {
+        `/recipes/${body.recipe_id}/ingredients`, {
           ingredients: body.ingredients,
           parsed_line_ids: body.parsed_line_ids
         }, (response) => {
@@ -26,6 +30,10 @@ document.addEventListener("turbolinks:load", (_event) => {
 
     document.querySelector('.js-RecipeView__add-tools').addEventListener('click', (event) => {
        let body = Array.from(document.querySelectorAll('.js-RecipeEditor__tool-checkbox:checked')).reduce((acc, toolCheckboxElement) => {
+         if (acc.recipe_id === 0 ) {
+           acc.recipe_id = toolCheckboxElement.dataset.recipeId
+         }
+
          acc.tools.push({
            content: toolCheckboxElement.dataset.content,
            recipe_id: toolCheckboxElement.dataset.recipeId
@@ -34,10 +42,10 @@ document.addEventListener("turbolinks:load", (_event) => {
          acc.parsed_line_ids.push(toolCheckboxElement.value)
 
          return acc
-       }, {tools: [], parsed_line_ids: []})
+       }, {tools: [], parsed_line_ids: [], recipe_id: 0})
 
       postJson(
-        '/recipes/4/tools', {
+        `/recipes/${body.recipe_id}/tools`, {
           tools: body.tools,
           parsed_line_ids: body.parsed_line_ids
         }, (response) => {
@@ -62,7 +70,7 @@ document.addEventListener("turbolinks:load", (_event) => {
       let stepId = document.querySelector('#choose_step').selectedOptions[0].value
 
       patchJson(
-        `/recipes/4/steps/${stepId}`, {
+        `/recipes/${body.step.recipe_id}/steps/${stepId}`, {
           step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
           parsed_line_ids: body.parsed_line_ids
         }, (response) => {
