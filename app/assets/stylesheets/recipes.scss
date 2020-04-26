@@ -7,5 +7,29 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    max-height: 500px;
+    overflow: auto;
+  }
+
+  &__parsed-line-text {
+    display: list-item;
+    margin-left: 1.3em;
+    list-style-type: circle;
+  }
+
+  &__steps-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 300px;
+    padding-top: 5%;
+  }
+
+  &__step-item-container {
+    width: 33%;
+  }
+
+  &__builder-commands-container {
+    padding-top: 5%;
   }
 }
