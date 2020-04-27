@@ -13,4 +13,6 @@ Rails.application.routes.draw do
       resources :steps, only: [:update]
     end
   end
+
+  resources :web_recipes, only: [:create, :show]
 end

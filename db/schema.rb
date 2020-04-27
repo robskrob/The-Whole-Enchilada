@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_25_171111) do
+ActiveRecord::Schema.define(version: 2020_04_26_232217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 2020_04_25_171111) do
     t.datetime "published_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "web_recipes_id"
+    t.index ["web_recipes_id"], name: "index_recipes_on_web_recipes_id"
   end
 
   create_table "steps", force: :cascade do |t|
@@ -101,6 +103,15 @@ ActiveRecord::Schema.define(version: 2020_04_25_171111) do
     t.index ["recipe_id"], name: "index_tools_on_recipe_id"
   end
 
+  create_table "web_recipes", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "pathname", null: false
+    t.text "content"
+    t.text "host_origin"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "images", "recipes"
   add_foreign_key "ingredients", "recipes"
@@ -108,6 +119,7 @@ ActiveRecord::Schema.define(version: 2020_04_25_171111) do
   add_foreign_key "parsed_lines", "recipes"
   add_foreign_key "parsed_long_lines", "images"
   add_foreign_key "parsed_long_lines", "recipes"
+  add_foreign_key "recipes", "web_recipes", column: "web_recipes_id"
   add_foreign_key "steps", "recipes"
   add_foreign_key "tools", "recipes"
 end

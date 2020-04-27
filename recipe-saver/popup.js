@@ -9,14 +9,27 @@ function hello() {
 
     chrome.tabs.sendRequest(currentTab.id, {action: "getDOM"}, function(response) {
 
-      console.log('TEXT FROM ACTIVE TAB', response.text);
+      console.log('TEXT FROM ACTIVE TAB', response.content);
 
       $.ajax({
-        url: "https://google.com"
+        method: 'POST',
+        url: "https://d81e7962.ngrok.io/web_recipes",
+        data: {
+          content: response.content,
+          host_origin: response.host_origin,
+          name: response.name,
+          pathname: response.pathname
+        }
       }).done(function( data ) {
-        console.log('RESPONSE FROM GOOGLE', data)
+        console.log('RESPONSE FROM THE WHOLE ENCHILADA', data)
       });
     });
+
+//    $.ajax({
+//      url: "https://google.com"
+//    }).done(function( data ) {
+//      console.log(data)
+//    });
   }
 
   chrome.tabs.query(query, callback);
