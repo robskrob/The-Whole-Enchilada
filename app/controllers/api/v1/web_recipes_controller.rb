@@ -10,7 +10,8 @@ class Api::V1::WebRecipesController < ApplicationController
       web_recipe = WebRecipe.create(web_recipe_params)
 
       recipe = Recipe.create(
-        title: web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize
+        title: web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
+        web_recipes_id: web_recipe.id
       )
 
       ParsedLinesInserterWorker.perform_async(web_recipe.content, recipe.id)
