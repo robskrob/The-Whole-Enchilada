@@ -13,7 +13,7 @@ function hello() {
 
       $.ajax({
         method: 'POST',
-        url: "https://d81e7962.ngrok.io/api/v1/web_recipes",
+        url: "https://282a1084.ngrok.io/api/v1/web_recipes",
         data: {
           content: response.content,
           host_origin: response.host_origin,

@@ -81,8 +81,8 @@ ActiveRecord::Schema.define(version: 2020_04_26_232217) do
     t.datetime "published_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "web_recipes_id"
-    t.index ["web_recipes_id"], name: "index_recipes_on_web_recipes_id"
+    t.bigint "web_recipe_id"
+    t.index ["web_recipe_id"], name: "index_recipes_on_web_recipe_id"
   end
 
   create_table "steps", force: :cascade do |t|
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 2020_04_26_232217) do
   add_foreign_key "parsed_lines", "recipes"
   add_foreign_key "parsed_long_lines", "images"
   add_foreign_key "parsed_long_lines", "recipes"
-  add_foreign_key "recipes", "web_recipes", column: "web_recipes_id"
+  add_foreign_key "recipes", "web_recipes"
   add_foreign_key "steps", "recipes"
   add_foreign_key "tools", "recipes"
 end
