@@ -1,4 +1,4 @@
-class WebRecipesController < ApplicationController
+class Api::V1::WebRecipesController < ApplicationController
   protect_from_forgery with: :exception, except: [:create], prepend: true
 
   def create

@@ -1,7 +1,6 @@
 require 'sidekiq/web'
-Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
+Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   resources :recipes, only: [:create, :delete, :edit, :index, :new, :show, :update] do
@@ -14,5 +13,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :web_recipes, only: [:create, :show]
+  namespace :api do
+    namespace :v1 do
+      resources :web_recipes, only: [:create, :show]
+    end
+  end
 end
