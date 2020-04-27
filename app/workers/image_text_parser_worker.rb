@@ -9,7 +9,7 @@ class ImageTextParserWorker
 
       text = parser.generate_text
 
-      ParsedLinesInserterWorker.perform_async(text, image.recipe_id, image.id)
+      ParsedLinesInserterWorker.perform_async(text, image.recipe_id, {image_id: image.id})
     end
   end
 end
