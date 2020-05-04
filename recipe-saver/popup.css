@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  /* removing to connect border of body
+  height: 100%;*/
+}
+
+main#the-whole-enchilada-recipe-saver--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaU {
+  height: 300px;
+  width: 300px;
+  overflow: auto;
+  position: relative;
+}
+
+.WholeEnchiladaRecipes_images-section--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+img.image--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  width: 100%;
+}
+
+img.selected--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  border: solid 4px yellow;
+}
+
+button.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  position: fixed;
+  bottom: 0;
+}

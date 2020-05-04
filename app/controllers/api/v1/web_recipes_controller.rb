@@ -5,7 +5,7 @@ class Api::V1::WebRecipesController < ApplicationController
     web_recipe = WebRecipe.find_by_name(web_recipe_params[:name])
 
     if web_recipe
-      message = {message: "Recipe already exists", success: false}
+      message = {message: "Recipe already exists", recipe: web_recipe.recipe, success: false}
     else
       web_recipe = WebRecipe.create(web_recipe_params)
 
