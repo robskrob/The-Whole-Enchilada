@@ -9,7 +9,7 @@ function findOrCreateRecipe() {
 
       $.ajax({
         method: 'POST',
-        url: "https://e88b2e6a.ngrok.io/api/v1/web_recipes",
+        url: "https://85ebc4cd.ngrok.io/api/v1/web_recipes",
         data: {
           content: response.content,
           host_origin: response.host_origin,
@@ -31,7 +31,7 @@ function findOrCreateRecipe() {
 function queryImages() {
   function queryImagesFromActiveTab(tabs) {
     var currentTab = tabs[0]; // there will be only one in this array
-    console.log(currentTab); // also has properties like currentTab.id
+    console.log('the current tab', currentTab); // also has properties like currentTab.id
 
     chrome.tabs.sendRequest(currentTab.id, {action: "getImageElements"}, function(response) {
       var imagesSectionElement = document.querySelector('.WholeEnchiladaRecipes_images-section--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
@@ -67,8 +67,8 @@ function queryImages() {
           if (imageDataArray.length) {
             console.log(imageDataArray);
             $.ajax({
-              method: 'PATCH',
-              url: "https://e88b2e6a.ngrok.io/api/v1/recipes/" + recipeId,
+              method: 'POST',
+              url: "https://85ebc4cd.ngrok.io/api/v1/recipes/" + recipeId + "/images",
               data: {
                 imageDataArray: JSON.stringify(imageDataArray)
               }
