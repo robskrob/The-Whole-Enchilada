@@ -2,8 +2,8 @@ class ImageRecipeInserter
   include ActionView::Helpers::TextHelper
 
   def initialize(alt_text, filename, recipe)
-    @alt_text = alt_text
-    @filename = filename
+    @alt_text = alt_text.to_s
+    @filename = filename.to_s
     @recipe = recipe
   end
 
@@ -22,7 +22,7 @@ class ImageRecipeInserter
     if alt_text.to_s.length > Image::ALT_TEXT_CHAR_LIMIT
       truncate(alt_text, length: 250)
     else
-      alt_text.to_s
+      alt_text
     end
   end
 
@@ -30,6 +30,6 @@ class ImageRecipeInserter
     "#{Rails.root}/tmp/storage/#{filename}"
   end
 
-  attr_accessor :alt_text, :filename, :recipe, :tmp_path
+  attr_accessor :alt_text, :filename, :recipe
 
 end
