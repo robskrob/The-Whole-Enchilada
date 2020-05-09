@@ -1,6 +1,4 @@
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-  console.log('request', request);
-  console.log('sender', sender);
   if (request.action === 'getInnerHTML') {
     let body = document.querySelector('body');
 
@@ -13,8 +11,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
   }
 
   if (request.action === 'getImageElements') {
-    // document.querySelectorAll("[style*='background-image']")[6].style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/)[1]
-    //
     var imageDataArray = Array.from(document.querySelectorAll("[style*='background-image'], img")).reduce(function(acc, imageElement) {
       var imageSource = imageElement.getAttribute('src');
       var backgroundImageMatch = imageElement.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/);

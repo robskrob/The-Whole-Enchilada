@@ -10,9 +10,25 @@ body {
   height: 100%;*/
 }
 
+.WholeEnchiladaRecipes__hero-section--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  padding: 1em;
+}
+
+.WholeEnchiladaRecipes__get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  display: none;
+  padding: 1em;
+}
+
 main#the-whole-enchilada-recipe-saver--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaU {
-  height: 300px;
-  width: 300px;
+  width: 130px;
+  padding: 1em;
   overflow: auto;
   position: relative;
 }
@@ -25,6 +41,11 @@ main#the-whole-enchilada-recipe-saver--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKB
   flex-wrap: wrap;
 }
 
+.WholeEnchiladaRecipes_get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  display: none;
+  padding: 1em;
+}
+
 img.image--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
   width: 100%;
 }
@@ -33,7 +54,24 @@ img.selected--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
   border: solid 4px yellow;
 }
 
-button.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  display: none;
   position: fixed;
   bottom: 0;
+  padding: .3em;
+}
+
+.WholeEnchiladaRecipes_images-hero--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp  {
+  display: none;
+}
+
+.WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp {
+  display: flex;
 }
