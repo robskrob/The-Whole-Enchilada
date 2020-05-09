@@ -12,8 +12,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["jquery-3.5.0.min.js", "content.js"],
-      "css": ["styles.css"]
+      "js": ["jquery-3.5.0.min.js", "content.js"]
     }
   ]
 }

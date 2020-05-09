@@ -16,6 +16,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :web_recipes, only: [:create, :show]
+
+      resources :recipes do
+        scope module: :recipes do
+          resources :images, only: [:create]
+        end
+      end
     end
   end
 end
