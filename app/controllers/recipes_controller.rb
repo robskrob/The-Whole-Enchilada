@@ -26,6 +26,10 @@ class RecipesController < ApplicationController
     @text = []
   end
 
+  def index
+    @recipes = Recipe.first(20)
+  end
+
   def new
     @recipe = Recipe.new
   end
