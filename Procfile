@@ -1,3 +1,2 @@
-webpack: npm run webpack:compress
 web: bundle exec puma -C config/puma.rb
 worker: bundle exec sidekiq -C config/sidekiq.yml -t 30

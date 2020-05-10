@@ -12,8 +12,5 @@
   "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "^3.10.3"
-  },
-  "scripts": {
-    "webpack:compress": "bin/webpack -p"
   }
 }
