@@ -15,6 +15,10 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
       var imageSource = imageElement.getAttribute('src');
       var backgroundImageMatch = imageElement.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/);
 
+      if (!/(http(s?)):\/\//i.test(imageSource)) {
+        imageSource = "https:" + imageSource;
+      }
+
       if (imageSource && imageSource.length > 0) {
         acc.push({
           source: imageSource,

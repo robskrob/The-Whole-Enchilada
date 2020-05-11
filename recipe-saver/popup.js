@@ -4,26 +4,28 @@ function findOrCreateRecipe() {
     var currentTab = tabs[0]; // there will be only one in this array
 
     chrome.tabs.sendRequest(currentTab.id, {action: "getInnerHTML"}, function(response) {
-      $.ajax({
-        method: 'POST',
-        url: "https://85ebc4cd.ngrok.io/api/v1/web_recipes",
-        data: {
-          content: response.content,
-          host_origin: response.host_origin,
-          name: response.name,
-          pathname: response.pathname
-        }
-      }).done(function( data ) {
-        console.log('RESPONSE FROM THE WHOLE ENCHILADA', data);
-        var getImagesButtonElement = document.querySelector('.WholeEnchiladaRecipes__get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-        var importButtonElement = document.querySelector('.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-        var saveButtonElement = document.querySelector('.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+      if (response) {
+        $.ajax({
+          method: 'POST',
+          url: "https://thawing-atoll-76323.herokuapp.com/api/v1/web_recipes",
+          data: {
+            content: response.content,
+            host_origin: response.host_origin,
+            name: response.name,
+            pathname: response.pathname
+          }
+        }).done(function( data ) {
+          console.log('RESPONSE FROM THE WHOLE ENCHILADA', data);
+          var getImagesButtonElement = document.querySelector('.WholeEnchiladaRecipes__get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+          var importButtonElement = document.querySelector('.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+          var saveButtonElement = document.querySelector('.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
 
-        importButtonElement.setAttribute('data-recipe-id', data.recipe.id);
+          importButtonElement.setAttribute('data-recipe-id', data.recipe.id);
 
-        saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-        getImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-      });
+          saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+          getImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        });
+      }
     });
   }
 
@@ -99,7 +101,7 @@ function queryImages() {
           if (imageDataArray.length) {
             $.ajax({
               method: 'POST',
-              url: "https://85ebc4cd.ngrok.io/api/v1/recipes/" + recipeId + "/images",
+              url: "https://thawing-atoll-76323.herokuapp.com/api/v1/recipes/" + recipeId + "/images",
               data: {
                 imageDataArray: JSON.stringify(imageDataArray)
               }
