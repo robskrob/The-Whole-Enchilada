@@ -1,8 +1,18 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  devise_for :users
   mount Sidekiq::Web => '/sidekiq'
+
+  root to: 'pages#home'
+
+  devise_for :users, skip: :all, skip_helpers: true
+
+  devise_scope :user do
+    resources :registrations, only: [:new, :create, :update, :edit]
+    resources :sessions, only: [:create, :new, :destroy]
+    resources :passwords, only: [:new, :create, :update]
+    resources :confirmations, only: :create
+  end
 
   resources :recipes, only: [:create, :delete, :edit, :index, :new, :show, :update] do
     scope module: :recipes do

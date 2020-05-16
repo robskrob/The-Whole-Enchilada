@@ -1,0 +1,13 @@
+%h2 Log in
+= form_with model: User.new, url: sessions_path, method: :post do |form|
+  .field
+    = form.label :email
+    %br/
+    = form.email_field :email, autofocus: true, autocomplete: "email"
+  .field
+    = form.label :password
+    %br/
+    = form.password_field :password, autocomplete: "current-password"
+  .actions
+    = form.submit "Log in"
+%h3= link_to("new user? Create account",  new_registration_path)
