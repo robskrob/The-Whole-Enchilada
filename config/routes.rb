@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  devise_for :users
   mount Sidekiq::Web => '/sidekiq'
 
   resources :recipes, only: [:create, :delete, :edit, :index, :new, :show, :update] do
