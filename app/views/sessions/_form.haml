@@ -1,0 +1,11 @@
+= form_with model: user, url: sessions_path, method: :post do |form|
+  .field
+    = form.label :email
+    %br/
+    = form.email_field :email, autofocus: true, autocomplete: "email"
+  .field
+    = form.label :password
+    %br/
+    = form.password_field :password, autocomplete: "current-password"
+  .actions
+    = form.submit "Log in"
