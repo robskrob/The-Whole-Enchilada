@@ -1,0 +1,7 @@
+= form_with model: user, url: passwords_path, local: true, method: :post do |form|
+  .field
+    = form.label :email
+    %br/
+    = form.email_field :email, autofocus: true, autocomplete: "email"
+  .actions
+    = form.submit "Send me reset password instructions"

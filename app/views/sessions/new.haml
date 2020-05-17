@@ -1,3 +1,4 @@
 %h2 Log in
 = render partial: 'sessions/form', locals: {user: User.new}
 %h3= link_to("new user? Create account",  new_registration_path)
+%h3= link_to("Forgot Password?",  new_password_path)

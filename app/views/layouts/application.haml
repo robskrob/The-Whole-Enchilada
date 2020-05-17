@@ -10,7 +10,7 @@
   %body
     = yield
     - if params[:reset_password_token]
-      = component 'reset_password_modal'
-      = render 'layouts/reset_password_callback'
+      - user = User.find_and_assign_by_reset_password(params[:reset_password_token]) 
+      = render partial: 'layouts/reset_password_callback', locals: {reset_password_token: params[:reset_password_token], user: user}
     - if params[:confirmation_token]
       = render 'layouts/confirmation_callback'
