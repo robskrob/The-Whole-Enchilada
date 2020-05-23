@@ -61,6 +61,8 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "the_whole_enchilada_production"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { host: ENV['SITE_URL'] }
+  config.action_mailer.delivery_method = :amazon_ses
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

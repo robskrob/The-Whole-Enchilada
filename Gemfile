@@ -17,6 +17,7 @@ gem 'sidekiq', '6.0.6'
 gem 'dotenv-rails', '2.7.5'
 gem 'devise', '4.7.1'
 gem 'letter_opener', '1.7.0'
+gem 'aws-ses', '0.6.0'
 
 group :production do
   gem 'aws-sdk-s3', '1.61.2'
