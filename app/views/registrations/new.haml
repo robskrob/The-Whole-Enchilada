@@ -1,5 +1,5 @@
 %h2 Create Account
-= form_with model: User.new, url: registrations_path, method: :post do |form|
+= form_with model: User.new, url: registrations_path, method: :post, local: true do |form|
   .field
     = form.label :email
     %br/
