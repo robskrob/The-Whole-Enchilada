@@ -1,15 +1,9 @@
 class SessionsController < Devise::SessionsController
-  def new
-    render :new
-  end
 
-  def create
+  def respond_with(resource, *)
     if user_signed_in?
-      byebug
       redirect_to root_path
-
-    else
-      byebug
     end
   end
+
 end
