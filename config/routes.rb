@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   devise_scope :user do
     resources :registrations, only: [:new, :create, :update, :edit]
     resources :sessions, only: [:create, :new, :destroy]
-    resources :passwords, only: [:new, :create, :update]
-    resources :confirmations, only: :create
+    resources :passwords, only: [:create, :new, :update]
+    resources :confirmations, only: [:create, :new]
   end
 
   resources :recipes, only: [:create, :delete, :edit, :index, :new, :show, :update] do
