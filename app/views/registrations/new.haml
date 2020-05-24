@@ -1,0 +1,19 @@
+%h2 Create Account
+= form_with model: User.new, url: registrations_path, method: :post, local: true do |form|
+  .field
+    = form.label :email
+    %br/
+    = form.email_field :email, autofocus: true, autocomplete: "email", required: true
+  .field
+    = form.label :password
+    - if @minimum_password_length
+      %em
+        (#{@minimum_password_length} characters minimum)
+    %br/
+    = form.password_field :password, autocomplete: "new-password", required: true
+  .field
+    = form.label :password_confirmation
+    %br/
+    = form.password_field :password_confirmation, autocomplete: "new-password", required: true
+  .actions
+    = form.submit "Sign up"

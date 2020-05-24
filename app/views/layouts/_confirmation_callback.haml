@@ -1,0 +1,6 @@
+- user = User.confirm_by_token(params[:confirmation_token])
+
+- if user.errors.empty?
+  = render partial: 'sessions/form', locals: {user: user}
+- else
+  = component('error_modal', message: user.errors.full_messages.join(', '))

@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title TheWholeEnchilada
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    %div.flash-messages
+      = flash[:notice]
+      = flash[:error]
+      = flash[:alert]
+    = yield
+    - if params[:reset_password_token]
+      - user = User.find_and_assign_by_reset_password(params[:reset_password_token]) 
+      = render partial: 'layouts/reset_password_callback', locals: {reset_password_token: params[:reset_password_token], user: user}
+    - if params[:confirmation_token]
+      = render 'layouts/confirmation_callback'
