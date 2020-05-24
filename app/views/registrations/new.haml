@@ -17,3 +17,6 @@
     = form.password_field :password_confirmation, autocomplete: "new-password", required: true
   .actions
     = form.submit "Sign up"
+
+%h3= link_to("existing user? Log in",  new_session_path)
+%h3= link_to("Forgot Password?",  new_password_path)
