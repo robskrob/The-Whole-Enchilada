@@ -1,6 +1,7 @@
 - user = User.confirm_by_token(params[:confirmation_token])
 
 - if user.errors.empty?
+  %h2 Enter Password to confirm account
   = render partial: 'sessions/form', locals: {user: user}
 - else
   = component('error_modal', message: user.errors.full_messages.join(', '))
