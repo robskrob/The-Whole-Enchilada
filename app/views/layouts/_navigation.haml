@@ -1,0 +1,12 @@
+.Navigation__section
+  - if current_user
+    .Navigation__item
+      %h2= link_to('Account', account_path)
+    .Navigation__item
+      = button_to('Log Out', session_path(current_user.id), method: :delete, class: 'Account__tab')
+  - else
+    .Navigation__item
+      %h2= link_to('Account', 'sessions/new')
+  .Navigation__item
+    %h2= link_to('Recipes', recipes_path)
+

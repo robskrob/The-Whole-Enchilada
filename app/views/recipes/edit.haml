@@ -16,8 +16,8 @@
     = form.label(:description, "Description")
     = form.text_area(:description)
     = form.fields_for :images do |image_builder|
-      = form.label(:text_processed, "Process Text On Image")
-      = image_builder.file_field :file
+      = form.label(:text_processed, "Only PNG and Jpeg are acceptable")
+      = image_builder.file_field :file, accept: 'image/png,image/jpeg'
     = form.label(:date_published, "Date Published")
     = form.date_field(:date_published)
     = form.submit("update")
@@ -81,3 +81,4 @@
             Image Has Been Parsed
         - else
           = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
+        = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 

@@ -2,7 +2,7 @@ class SessionsController < Devise::SessionsController
 
   def respond_with(resource, *)
     if user_signed_in?
-      redirect_to root_path
+      redirect_to recipes_path
     end
   end
 

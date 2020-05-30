@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_224007) do
+ActiveRecord::Schema.define(version: 2020_05_30_194055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(version: 2020_05_16_224007) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "web_recipe_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_recipes_on_user_id"
     t.index ["web_recipe_id"], name: "index_recipes_on_web_recipe_id"
   end
 
@@ -137,6 +139,7 @@ ActiveRecord::Schema.define(version: 2020_05_16_224007) do
   add_foreign_key "parsed_lines", "recipes"
   add_foreign_key "parsed_long_lines", "images"
   add_foreign_key "parsed_long_lines", "recipes"
+  add_foreign_key "recipes", "users"
   add_foreign_key "recipes", "web_recipes"
   add_foreign_key "steps", "recipes"
   add_foreign_key "tools", "recipes"
