@@ -1,6 +1,7 @@
-%h2 viewing the recipe
-= @recipe.to_json
-
+.RecipeView__header
+  %h2= @recipe.title
+  - if current_user && current_user.id == @recipe.user_id 
+    = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
 .RecipeView__parsed-lines-container
   - @recipe.parsed_lines.each do |line|
     .RecipeView__parsed-line-item-container

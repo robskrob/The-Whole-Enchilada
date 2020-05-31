@@ -6,7 +6,7 @@
       = button_to('Log Out', session_path(current_user.id), method: :delete, class: 'Account__tab')
   - else
     .Navigation__item
-      %h2= link_to('Account', 'sessions/new')
+      %h2= link_to('Account', new_session_path)
   .Navigation__item
     %h2= link_to('Recipes', recipes_path)
 

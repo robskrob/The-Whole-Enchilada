@@ -1,6 +1,6 @@
 class RecipesController < ApplicationController
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :except => [:index]
 
   def create
     @recipe = Recipe.new(
