@@ -1,8 +1,10 @@
 %main.js-RecipeEditor
   %h1 editing recipe
 
+  - recipe_builder_presenter = RecipeBuilderPresenter.new(@recipe)
+
   - ingredients = @recipe.ingredients
-  - steps = @recipe.steps
+  - steps = recipe_builder_presenter.steps
   - tools = @recipe.tools
 
   - step_options = steps.map do |step|
