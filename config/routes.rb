@@ -14,15 +14,17 @@ Rails.application.routes.draw do
     resources :confirmations, only: [:create, :new]
   end
 
-  resources :recipes, only: [:create, :delete, :edit, :index, :new, :show, :update] do
+  resources :recipes, only: [:create, :destroy, :edit, :index, :new, :show, :update] do
     scope module: :recipes do
-      resources :images, only: [:update]
+      resources :images, only: [:update, :destroy]
       resources :parsed_lines, only: [:update]
       resources :ingredients, only: [:create]
       resources :tools, only: [:create]
       resources :steps, only: [:update]
     end
   end
+
+  resource :account, only: [:show, :edit, :update]
 
   namespace :api do
     namespace :v1 do

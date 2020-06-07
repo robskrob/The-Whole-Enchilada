@@ -1,8 +1,12 @@
 class RecipesController < ApplicationController
+
+  before_action :authenticate_user!, :except => [:index]
+
   def create
     @recipe = Recipe.new(
+      description: params[:recipe][:description],
       title: params[:recipe][:title],
-      description: params[:recipe][:description]
+      user_id: current_user.id
     )
 
     @recipe.save
@@ -53,6 +57,6 @@ class RecipesController < ApplicationController
 
     recipe = recipe_updater.coordinate
 
-    redirect_to 'edit', id: recipe.id
+    redirect_to edit_recipe_path(recipe.id)
   end
 end

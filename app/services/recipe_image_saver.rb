@@ -8,7 +8,7 @@ class RecipeImageSaver
     if file.present?
       image = recipe.images.create
 
-      tmp_path = "#{Rails.root}/tmp/storage/#{file.original_filename}.#{file.content_type}"
+      tmp_path = "#{Rails.root}/tmp/storage/#{file.original_filename}"
 
       File.open("#{tmp_path}",'wb') do |f|
         f.write file.read

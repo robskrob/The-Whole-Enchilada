@@ -1,4 +1,10 @@
 .RecipeView {
+  &__header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
   &__images-container {
     display: flex;
   }

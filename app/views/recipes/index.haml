@@ -1,4 +1,8 @@
-
 %ul
   - @recipes.each do |recipe|
     %li= link_to(recipe.title, recipe_path(recipe.id))
+
+- if current_user
+  %h2= link_to("Create", new_recipe_path)
+- else
+  %h2= link_to("Create", new_session_path)

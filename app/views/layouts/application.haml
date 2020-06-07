@@ -12,6 +12,7 @@
       = flash[:notice]
       = flash[:error]
       = flash[:alert]
+    = render 'layouts/navigation'
     = yield
     - if params[:reset_password_token]
       - user = User.find_and_assign_by_reset_password(params[:reset_password_token]) 

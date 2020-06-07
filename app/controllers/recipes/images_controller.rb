@@ -5,5 +5,15 @@ module Recipes
 
       redirect_to edit_recipe_path(params[:recipe_id])
     end
+
+    def destroy
+      image = Image.find(params[:id])
+
+      if image.present?
+        image.destroy
+      end
+
+      redirect_to edit_recipe_path(params[:recipe_id])
+    end
   end
 end

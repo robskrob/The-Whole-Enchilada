@@ -1,0 +1,7 @@
+.Account__page
+  %h2= current_user.email
+
+  .Account__recipes-section
+    %ul
+      - @recipes.each do |recipe|
+        %li= link_to(recipe.title, recipe_path(recipe.id))
