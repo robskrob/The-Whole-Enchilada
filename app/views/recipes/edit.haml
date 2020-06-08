@@ -4,12 +4,10 @@
   - recipe_builder_presenter = RecipeBuilderPresenter.new(@recipe)
 
   - ingredients = @recipe.ingredients
-  - steps = recipe_builder_presenter.steps
+  - steps = @recipe.steps
   - tools = @recipe.tools
 
-  - step_options = steps.map do |step|
-    - number = step.position + 1
-    - [number.ordinalize, step.id]
+  - step_options = recipe_builder_presenter.step_options
 
   = form_with(model: @recipe, method: "patch") do |form|
     = form.label(:title, "Title")

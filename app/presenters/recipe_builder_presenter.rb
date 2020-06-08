@@ -2,19 +2,25 @@ class RecipeBuilderPresenter
 
   def initialize(recipe)
     @recipe = recipe
+    @steps = recipe.steps
   end
 
-  def steps
-    recipe_steps = recipe.steps
-    if recipe_steps.present?
-      last_position_value = recipe_steps.order(:position).last.position
-      recipe_steps.push(Step.new(recipe_id: recipe.id, content: '', position: last_position_value + 1, id: ''))
+  def step_options
+    options = steps.map do |step|
+      number = step.position + 1
+      [number.ordinalize, step.id]
+    end
+
+    if options.present?
+      new_step_number = steps.order(position: :asc).last.position + 2
+
+      options.push([new_step_number.ordinalize, ''])
     else
-      [OpenStruct.new(position: 0, id: 0)]
+      ["1st", 0]
     end
   end
 
   private
 
-  attr_accessor :recipe
+  attr_accessor :recipe, :steps
 end
