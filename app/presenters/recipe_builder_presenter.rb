@@ -1,8 +1,10 @@
 class RecipeBuilderPresenter
 
+  attr_accessor :steps
+
   def initialize(recipe)
     @recipe = recipe
-    @steps = recipe.steps
+    @steps = recipe.steps.order(position: :asc)
   end
 
   def step_options
@@ -12,7 +14,7 @@ class RecipeBuilderPresenter
     end
 
     if options.present?
-      new_step_number = steps.order(position: :asc).last.position + 2
+      new_step_number = steps.last.position + 2
 
       options.push([new_step_number.ordinalize, ''])
     else
@@ -22,5 +24,5 @@ class RecipeBuilderPresenter
 
   private
 
-  attr_accessor :recipe, :steps
+  attr_accessor :recipe
 end

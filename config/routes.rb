@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :parsed_lines, only: [:update]
       resources :ingredients, only: [:create]
       resources :tools, only: [:create]
-      resources :steps, only: [:update]
+      resources :steps, only: [:create, :update]
     end
   end
 

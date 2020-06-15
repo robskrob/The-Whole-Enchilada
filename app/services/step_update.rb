@@ -8,7 +8,6 @@ class StepUpdate
   def can_save?
     instance = step_model_constant.find_by_id(id)
 
-    byebug
     if instance.present?
       step_instance = instance
       true

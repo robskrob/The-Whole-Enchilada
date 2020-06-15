@@ -6,7 +6,6 @@ class StepCreate
   end
 
   def can_save?
-    byebug
     attributes.keys == ["content", "recipe_id"] &&
       attributes.values.length == 2
   end
@@ -20,7 +19,6 @@ class StepCreate
   end
 
   def save
-    byebug
     step_model_constant.create(attributes.merge({position: last_position_value + 1}))
   end
 

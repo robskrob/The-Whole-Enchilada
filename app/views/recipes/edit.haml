@@ -4,7 +4,7 @@
   - recipe_builder_presenter = RecipeBuilderPresenter.new(@recipe)
 
   - ingredients = @recipe.ingredients
-  - steps = @recipe.steps
+  - steps = recipe_builder_presenter.steps
   - tools = @recipe.tools
 
   - step_options = recipe_builder_presenter.step_options
@@ -65,11 +65,15 @@
           = tool.content
 
   %h2 steps
-  .RecipeView__steps-container
-    - steps.each do |step|
-      .RecipeView__step-item-container
-        .RecipeView__step-content
-          = step.content
+
+  - steps.each do |step|
+    .RecipeView__steps-container
+      = form_with(url: recipe_step_path(@recipe.id, step.id), model: step, method: "patch") do |form|
+        = form.label(:title, "Title")
+        = form.text_field(:title, class: 'RecipeView__step-title')
+        = form.label(:content, "Content")
+        = form.text_area(:content, class: 'RecipeView__step-content')
+        = form.submit("update")
 
   .RecipeView__images-container
     - @recipe.images.with_attached_file.each do |image|

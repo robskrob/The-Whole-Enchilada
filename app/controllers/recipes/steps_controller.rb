@@ -17,10 +17,26 @@ module Recipes
       render json: {success: true}
     end
 
+    def create
+      creator = StepCreate.new(
+        params[:id],
+        step_params,
+        Step
+      )
+
+      creator.save
+
+      ParsedLine
+        .where(id: parsed_line_ids_params)
+        .update_all(deleted: true)
+
+      render json: {success: true}
+    end
+
     private
 
     def step_params
-      params.permit(step: [:content, :recipe_id])[:step]
+      params.permit(step: [:content, :recipe_id, :title])[:step]
     end
 
     def parsed_line_ids_params

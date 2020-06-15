@@ -6,7 +6,6 @@ class StepOne
   end
 
   def can_save?
-    byebug
     id == 0
   end
 

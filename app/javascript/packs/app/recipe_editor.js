@@ -69,14 +69,25 @@ document.addEventListener("turbolinks:load", (_event) => {
 
       let stepId = document.querySelector('#choose_step').selectedOptions[0].value
 
-      patchJson(
-        `/recipes/${body.step.recipe_id}/steps/${stepId}`, {
-          step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
-          parsed_line_ids: body.parsed_line_ids
-        }, (response) => {
-          window.location.reload();
-        }
-      )
+      if (stepId) {
+        patchJson(
+          `/recipes/${body.step.recipe_id}/steps/${stepId}`, {
+            step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
+            parsed_line_ids: body.parsed_line_ids
+          }, (response) => {
+            window.location.reload();
+          }
+        )
+      } else {
+        postJson(
+          `/recipes/${body.step.recipe_id}/steps`, {
+            step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
+            parsed_line_ids: body.parsed_line_ids
+          }, (response) => {
+            window.location.reload();
+          }
+        )
+      }
     })
   }
 })
