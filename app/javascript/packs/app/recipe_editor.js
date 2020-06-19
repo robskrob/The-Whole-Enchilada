@@ -2,6 +2,24 @@ import {patchJson, postJson} from './ajax.js'
 
 document.addEventListener("turbolinks:load", (_event) => {
   if (document.querySelector(".js-RecipeEditor")) {
+    document.querySelector('.js-RecipeView__ingredient-create-button').addEventListener('click', (event) => {
+      event.preventDefault()
+
+      let ingredientTextAreaElement = document.querySelector('.js-RecipeView__ingredient-create-form-content')
+      let ingredientBody = {
+        content: ingredientTextAreaElement.value,
+        recipe_id: ingredientTextAreaElement.dataset.recipeId
+      }
+
+      postJson(
+        `/recipes/${ingredientBody.recipe_id}/ingredients`, {
+          ingredients: [ingredientBody]
+        }, (response) => {
+          window.location.reload();
+        }
+      )
+    });
+
     document.querySelector('.js-RecipeView__add-ingredients').addEventListener('click', (event) => {
        let body = Array.from(document.querySelectorAll('.js-RecipeEditor__ingredient-checkbox:checked')).reduce((acc, ingredientCheckboxElement) => {
          if (acc.recipe_id === 0 ) {
@@ -28,6 +46,24 @@ document.addEventListener("turbolinks:load", (_event) => {
       )
     })
 
+    document.querySelector('.js-RecipeView__tool-create-button').addEventListener('click', (event) => {
+      event.preventDefault()
+
+      let toolTextAreaElement = document.querySelector('.js-RecipeView__tool-create-form-content')
+      let toolBody = {
+        content: toolTextAreaElement.value,
+        recipe_id: toolTextAreaElement.dataset.recipeId
+      }
+
+      postJson(
+        `/recipes/${toolBody.recipe_id}/tools`, {
+          tools: [toolBody]
+        }, (response) => {
+          window.location.reload();
+        }
+      )
+    });
+
     document.querySelector('.js-RecipeView__add-tools').addEventListener('click', (event) => {
        let body = Array.from(document.querySelectorAll('.js-RecipeEditor__tool-checkbox:checked')).reduce((acc, toolCheckboxElement) => {
          if (acc.recipe_id === 0 ) {
@@ -53,6 +89,27 @@ document.addEventListener("turbolinks:load", (_event) => {
         }
       )
     })
+
+    document.querySelector('.js-RecipeView__step-create-button').addEventListener('click', (event) => {
+      event.preventDefault();
+
+      let stepFormElement = document.querySelector('.js-RecipeView__step-create-form')
+
+      let stepBody = {
+        step: {
+          content: stepFormElement.querySelector('.js-RecipeView__step-create-content').value.trim(),
+          title: stepFormElement.querySelector('.js-RecipeView__step-create-title').value.trim(),
+          recipe_id: stepFormElement.dataset.recipeId
+        }
+      }
+
+
+      postJson(
+        `/recipes/${stepBody.step.recipe_id}/steps`, stepBody, (response) => {
+          window.location.reload();
+        }
+      )
+    });
 
     document.querySelector('.js-RecipeView__add-step').addEventListener('click', (event) => {
        let body = Array.from(document.querySelectorAll('.js-RecipeEditor__step-checkbox:checked')).reduce((acc, stepCheckboxElement) => {

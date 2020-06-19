@@ -18,8 +18,8 @@ Rails.application.routes.draw do
     scope module: :recipes do
       resources :images, only: [:update, :destroy]
       resources :parsed_lines, only: [:update]
-      resources :ingredients, only: [:create]
-      resources :tools, only: [:create]
+      resources :ingredients, only: [:create, :update]
+      resources :tools, only: [:create, :update]
       resources :steps, only: [:create, :update]
     end
   end

@@ -18,7 +18,23 @@ module Recipes
       render json: {success: true}
     end
 
+    def update
+      ingredient = Ingredient.find(params[:id])
+
+      if ingredient
+        ingredient.update(content: ingredient_params[:ingredient][:content])
+
+        redirect_to edit_recipe_path(params[:recipe_id])
+      else
+        redirect_to edit_recipe_path(params[:recipe_id])
+      end
+    end
+
     private
+
+    def ingredient_params
+      params.permit(ingredient: [:content])
+    end
 
     def ingredients_params
       params.permit(ingredients: [:content, :recipe_id])[:ingredients]

@@ -18,7 +18,23 @@ module Recipes
       render json: {success: true}
     end
 
+    def update
+      tool = Tool.find(params[:id])
+
+      if tool
+        tool.update(content: tool_params[:tool][:content])
+
+        redirect_to edit_recipe_path(params[:recipe_id])
+      else
+        redirect_to edit_recipe_path(params[:recipe_id])
+      end
+    end
+
     private
+
+    def tool_params
+      params.permit(tool: [:content])
+    end
 
     def tools_params
       params.permit(tools: [:content, :recipe_id])[:tools]

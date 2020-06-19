@@ -54,15 +54,25 @@
   .RecipeView__ingredients-container
     - ingredients.each do |ingredient|
       .RecipeView__ingredient-item-container
-        .RecipeView__ingredient-content
-          = ingredient.content
+        = form_with(url: recipe_ingredient_path(@recipe.id, ingredient.id), model: ingredient, method: "patch") do |form|
+          = form.text_area(:content, class: 'RecipeView__ingredient-content')
+          = form.submit("update")
+    .RecipeView__ingredient-item-container
+      = form_with(url: recipe_ingredients_path(@recipe.id), model: Ingredient.new(recipe_id: @recipe.id), method: "post") do |form|
+        = form.text_area(:content, class: 'js-RecipeView__ingredient-create-form-content RecipeView__ingredient-content', data: {recipe_id: @recipe.id})
+        = form.submit("create", class: 'js-RecipeView__ingredient-create-button')
 
   %h2 tools
   .RecipeView__tools-container
     - tools.each do |tool|
       .RecipeView__tool-item-container
-        .RecipeView__tool-content
-          = tool.content
+        = form_with(url: recipe_tool_path(@recipe.id, tool.id), model: tool, method: "patch") do |form|
+          = form.text_area(:content, class: 'RecipeView__tool-content')
+          = form.submit("update")
+    .RecipeView__tool-item-container
+      = form_with(url: recipe_tools_path(@recipe.id), model: Tool.new(recipe_id: @recipe.id), method: "post") do |form|
+        = form.text_area(:content, class: 'js-RecipeView__tool-create-form-content RecipeView__tool-content', data: {recipe_id: @recipe.id})
+        = form.submit("create", class: 'js-RecipeView__tool-create-button')
 
   %h2 steps
 
@@ -74,6 +84,14 @@
         = form.label(:content, "Content")
         = form.text_area(:content, class: 'RecipeView__step-content')
         = form.submit("update")
+
+  .RecipeView__steps-container
+    = form_with(url: recipe_steps_path(@recipe.id), model: Step.new(recipe_id: @recipe.id), method: "post", class: 'js-RecipeView__step-create-form', data: {recipe_id: @recipe.id}) do |form|
+      = form.label(:title, "Title")
+      = form.text_field(:title, class: 'js-RecipeView__step-create-title RecipeView__step-title')
+      = form.label(:content, "Content")
+      = form.text_area(:content, class: 'js-RecipeView__step-create-content RecipeView__step-content')
+      = form.submit("create", class: 'js-RecipeView__step-create-button')
 
   .RecipeView__images-container
     - @recipe.images.with_attached_file.each do |image|
