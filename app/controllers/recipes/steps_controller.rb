@@ -33,6 +33,13 @@ module Recipes
       render json: {success: true}
     end
 
+    def destroy
+      step = Step.find(params[:id])
+      step.update(deleted: true)
+
+      redirect_to edit_recipe_path(params[:recipe_id])
+    end
+
     private
 
     def step_params

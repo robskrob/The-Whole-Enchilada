@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_14_185416) do
+ActiveRecord::Schema.define(version: 2020_06_19_221613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2020_06_14_185416) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "position", default: 0
+    t.boolean "deleted", default: false
     t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
   end
 
@@ -95,7 +96,17 @@ ActiveRecord::Schema.define(version: 2020_06_14_185416) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "position", null: false
     t.string "title"
+    t.boolean "deleted", default: false
     t.index ["recipe_id"], name: "index_steps_on_recipe_id"
+  end
+
+  create_table "tips", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "recipe_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "deleted", default: false
+    t.index ["recipe_id"], name: "index_tips_on_recipe_id"
   end
 
   create_table "tools", force: :cascade do |t|
@@ -104,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_06_14_185416) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "position", default: 0
+    t.boolean "deleted", default: false
     t.index ["recipe_id"], name: "index_tools_on_recipe_id"
   end
 
@@ -143,5 +155,6 @@ ActiveRecord::Schema.define(version: 2020_06_14_185416) do
   add_foreign_key "recipes", "users"
   add_foreign_key "recipes", "web_recipes"
   add_foreign_key "steps", "recipes"
+  add_foreign_key "tips", "recipes"
   add_foreign_key "tools", "recipes"
 end

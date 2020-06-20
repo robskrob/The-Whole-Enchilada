@@ -18,6 +18,13 @@ module Recipes
       render json: {success: true}
     end
 
+    def destroy
+      ingredient = Ingredient.find(params[:id])
+      ingredient.update(deleted: true)
+
+      redirect_to edit_recipe_path(params[:recipe_id])
+    end
+
     def update
       ingredient = Ingredient.find(params[:id])
 

@@ -5,6 +5,7 @@
 
   - ingredients = @recipe.ingredients
   - steps = recipe_builder_presenter.steps
+  - tips = @recipe.tips
   - tools = @recipe.tools
 
   - step_options = recipe_builder_presenter.step_options
@@ -57,6 +58,7 @@
         = form_with(url: recipe_ingredient_path(@recipe.id, ingredient.id), model: ingredient, method: "patch") do |form|
           = form.text_area(:content, class: 'RecipeView__ingredient-content')
           = form.submit("update")
+        = link_to('Delete', recipe_ingredient_path(@recipe.id, ingredient.id), method: :delete, data: {confirm: 'Are you sure you want to delete this ingredient?'})
     .RecipeView__ingredient-item-container
       = form_with(url: recipe_ingredients_path(@recipe.id), model: Ingredient.new(recipe_id: @recipe.id), method: "post") do |form|
         = form.text_area(:content, class: 'js-RecipeView__ingredient-create-form-content RecipeView__ingredient-content', data: {recipe_id: @recipe.id})
@@ -69,10 +71,24 @@
         = form_with(url: recipe_tool_path(@recipe.id, tool.id), model: tool, method: "patch") do |form|
           = form.text_area(:content, class: 'RecipeView__tool-content')
           = form.submit("update")
+      = link_to('Delete', recipe_tool_path(@recipe.id, tool.id), method: :delete, data: {confirm: 'Are you sure you want to delete this tool?'})
     .RecipeView__tool-item-container
       = form_with(url: recipe_tools_path(@recipe.id), model: Tool.new(recipe_id: @recipe.id), method: "post") do |form|
         = form.text_area(:content, class: 'js-RecipeView__tool-create-form-content RecipeView__tool-content', data: {recipe_id: @recipe.id})
         = form.submit("create", class: 'js-RecipeView__tool-create-button')
+
+  %h2 tips
+  .RecipeView__tips-container
+    - tips.each do |tip|
+      .RecipeView__tip-item-container
+        = form_with(url: recipe_tip_path(@recipe.id, tip.id), model: tip, method: "patch") do |form|
+          = form.text_area(:content, class: 'RecipeView__tip-content')
+          = form.submit("update")
+      = link_to('Delete', recipe_tip_path(@recipe.id, tip.id), method: :delete, data: {confirm: 'Are you sure you want to delete this tip?'})
+    .RecipeView__tip-item-container
+      = form_with(url: recipe_tip_path(@recipe.id), model: Tip.new(recipe_id: @recipe.id), method: "post") do |form|
+        = form.text_area(:content, class: 'js-RecipeView__tip-create-form-content RecipeView__tip-content', data: {recipe_id: @recipe.id})
+        = form.submit("create", class: 'js-RecipeView__tip-create-button')
 
   %h2 steps
 
@@ -84,6 +100,7 @@
         = form.label(:content, "Content")
         = form.text_area(:content, class: 'RecipeView__step-content')
         = form.submit("update")
+      = link_to('Delete', recipe_step_path(@recipe.id, step.id), method: :delete, class: 'js-RecipeView__step-delete-button', data: {confirm: 'Are you sure you want to delete this step?'})
 
   .RecipeView__steps-container
     = form_with(url: recipe_steps_path(@recipe.id), model: Step.new(recipe_id: @recipe.id), method: "post", class: 'js-RecipeView__step-create-form', data: {recipe_id: @recipe.id}) do |form|

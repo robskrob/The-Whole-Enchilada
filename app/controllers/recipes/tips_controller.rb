@@ -1,35 +1,28 @@
 module Recipes
-  class ToolsController < ApplicationController
+  class TipsController < ApplicationController
     protect_from_forgery with: :exception, except: [:create], prepend: true
 
     def create
-      tools = tools_params.map do |tool|
+      tips = tips_params.map do |tip|
         {
-          content: tool[:content],
-          recipe_id: tool[:recipe_id],
+          content: tip[:content],
+          recipe_id: tip[:recipe_id],
           created_at: Time.now.utc,
           updated_at: Time.now.utc
         }
       end
 
       ParsedLine.where(id: parsed_lined_ids_params).update_all(deleted: true)
-      Tool.insert_all(tools)
+      Tip.insert_all(tips)
 
       render json: {success: true}
     end
 
-    def destroy
-      tool = Tool.find(params[:id])
-      tool.update(deleted: true)
-
-      redirect_to edit_recipe_path(params[:recipe_id])
-    end
-
     def update
-      tool = Tool.find(params[:id])
+      tip = Tip.find(params[:id])
 
-      if tool
-        tool.update(content: tool_params[:tool][:content])
+      if tip
+        tip.update(content: tip_params[:tip][:content])
 
         redirect_to edit_recipe_path(params[:recipe_id])
       else
@@ -39,12 +32,12 @@ module Recipes
 
     private
 
-    def tool_params
-      params.permit(tool: [:content])
+    def tip_params
+      params.permit(tip: [:content])
     end
 
-    def tools_params
-      params.permit(tools: [:content, :recipe_id])[:tools]
+    def tips_params
+      params.permit(tips: [:content, :recipe_id])[:tips]
     end
 
     def parsed_lined_ids_params

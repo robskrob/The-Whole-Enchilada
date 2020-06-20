@@ -1,4 +1,4 @@
-import {patchJson, postJson} from './ajax.js'
+import {deleteJson, patchJson, postJson} from './ajax.js'
 
 document.addEventListener("turbolinks:load", (_event) => {
   if (document.querySelector(".js-RecipeEditor")) {
@@ -102,7 +102,6 @@ document.addEventListener("turbolinks:load", (_event) => {
           recipe_id: stepFormElement.dataset.recipeId
         }
       }
-
 
       postJson(
         `/recipes/${stepBody.step.recipe_id}/steps`, stepBody, (response) => {

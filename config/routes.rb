@@ -17,10 +17,11 @@ Rails.application.routes.draw do
   resources :recipes, only: [:create, :destroy, :edit, :index, :new, :show, :update] do
     scope module: :recipes do
       resources :images, only: [:update, :destroy]
+      resources :ingredients, only: [:create, :update, :destroy]
       resources :parsed_lines, only: [:update]
-      resources :ingredients, only: [:create, :update]
-      resources :tools, only: [:create, :update]
-      resources :steps, only: [:create, :update]
+      resources :steps, only: [:create, :update, :destroy]
+      resources :tips, only: [:create, :update, :destroy]
+      resources :tools, only: [:create, :update, :destroy]
     end
   end
 
