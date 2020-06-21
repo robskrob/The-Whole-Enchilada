@@ -38,4 +38,36 @@
   &__builder-commands-container {
     padding-top: 5%;
   }
+
+
+  &__tab-content {
+    display: none;
+  }
+
+  &__tabs {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__tab {
+    color: #999999;
+    cursor: pointer;
+    padding: 1em;
+  }
+
+  &__active-tab-label {
+    display: block;
+
+    color: blue;
+  }
+
+  &__active-tab-content {
+    display: block;
+  }
+
+  &__tab-content-container {
+    background: #f4f4f4;
+  }
 }

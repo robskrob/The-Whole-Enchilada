@@ -115,6 +115,22 @@
       = form.text_area(:content, class: 'js-RecipeView__step-create-content RecipeView__step-content')
       = form.submit("create", class: 'js-RecipeView__step-create-button')
 
+
+  %ul.RecipeView__tabs
+    %li.RecipeView__tab{"data-tab-target" => "#recipe-view-ingredients"} Ingredients
+    %li.RevipeView__tab.RevipeView__active-tab-label{"data-tab-target" => "#recipe-view-tools-tips"} Tools & Tips
+    %li.RevipeView__tab{"data-tab-target" => "#recipe-view-steps"} Steps
+  .RecipeView__tab-content-container
+    #recipe-view-ingredients.RecipeView__tab-content{"data-tab-content" => ""}
+      %h3 My Trips
+      %p These are my trips
+    #recipe-view-tools-tips.RecipeView__tab-content.RecipeView__active-tab-content{"data-tab-content" => ""}
+      %h3 tools and tips
+      %p These are my tools and tips
+    #recipe-view-steps.RecipeView__tab-content{"data-tab-content" => ""}
+      %h3 Saved Villas
+      %p These are my saved villas
+
   .RecipeView__images-container
     - @recipe.images.with_attached_file.each do |image|
       .RecipeView__image-container

@@ -185,5 +185,26 @@ document.addEventListener("turbolinks:load", (_event) => {
         }
       )
     })
+
+    let tabs = document.querySelectorAll('[data-tab-target]')
+    let tabContents = document.querySelectorAll('[data-tab-content]')
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabContent = document.querySelector(tab.dataset.tabTarget)
+
+        tabContents.forEach(tabContent => {
+          tabContent.classList.remove('RecipeView__active-tab-content')
+        })
+
+        tabs.forEach(tab => {
+          tab.classList.remove('RecipeView__active-tab-label')
+        })
+
+        tab.classList.add('RecipeView__active-tab-label')
+        tabContent.classList.add('RecipeView__active-tab-content')
+      })
+    })
+
   }
 })
