@@ -36,17 +36,22 @@
             = label_tag 'Ingredient'
             = check_box_tag :ingredient, line.id, false, class: 'js-RecipeEditor__ingredient-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
           .RecipeView__parsed-line-action-container
-            = label_tag 'Tool'
-            = check_box_tag :tool, line.id, false, class: 'js-RecipeEditor__tool-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
-          .RecipeView__parsed-line-action-container
             = label_tag 'Step'
             = check_box_tag :step, line.id, false, class: 'js-RecipeEditor__step-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
+          .RecipeView__parsed-line-action-container
+            = label_tag 'Tip'
+            = check_box_tag :tip, line.id, false, class: 'js-RecipeEditor__tip-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
+          .RecipeView__parsed-line-action-container
+            = label_tag 'Tool'
+            = check_box_tag :tool, line.id, false, class: 'js-RecipeEditor__tool-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
 
   .RecipeView__builder-commands-container
     .RecipeView__add-ingredients
       = link_to 'Add selected ingredients to recipe', '#', class: 'js-RecipeView__add-ingredients'
     .RecipeView__add-tools
       = link_to 'Add selected tools to recipe', '#', class: 'js-RecipeView__add-tools'
+    .RecipeView__add-tip
+      = link_to 'Add selected tip to recipe', '#', class: 'js-RecipeView__add-tip', data: {recipe_id: @recipe.id}
     .RecipeView__add-step
       = select_tag 'choose step', options_for_select(step_options)
       = link_to 'Add selected lines to step', '#', class: 'js-RecipeView__add-step'
@@ -81,12 +86,12 @@
   .RecipeView__tips-container
     - tips.each do |tip|
       .RecipeView__tip-item-container
-        = form_with(url: recipe_tip_path(@recipe.id, tip.id), model: tip, method: "patch") do |form|
+        = form_with(url: recipe_tip_path(@recipe.id, tip.id), model: tip, method: "patch", data: {recipe_id: @recipe.id}) do |form|
           = form.text_area(:content, class: 'RecipeView__tip-content')
           = form.submit("update")
       = link_to('Delete', recipe_tip_path(@recipe.id, tip.id), method: :delete, data: {confirm: 'Are you sure you want to delete this tip?'})
     .RecipeView__tip-item-container
-      = form_with(url: recipe_tip_path(@recipe.id), model: Tip.new(recipe_id: @recipe.id), method: "post") do |form|
+      = form_with(url: recipe_tip_path(@recipe.id), model: Tip.new(recipe_id: @recipe.id), method: "post", class: 'js-RecipeView__tip-create-form', data: {recipe_id: @recipe.id}) do |form|
         = form.text_area(:content, class: 'js-RecipeView__tip-create-form-content RecipeView__tip-content', data: {recipe_id: @recipe.id})
         = form.submit("create", class: 'js-RecipeView__tip-create-button')
 

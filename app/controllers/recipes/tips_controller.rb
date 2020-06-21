@@ -3,19 +3,17 @@ module Recipes
     protect_from_forgery with: :exception, except: [:create], prepend: true
 
     def create
-      tips = tips_params.map do |tip|
-        {
-          content: tip[:content],
-          recipe_id: tip[:recipe_id],
-          created_at: Time.now.utc,
-          updated_at: Time.now.utc
-        }
-      end
-
       ParsedLine.where(id: parsed_lined_ids_params).update_all(deleted: true)
-      Tip.insert_all(tips)
+      Tip.create(content: tip_params["tip"]["content"], recipe_id: params["recipe_id"])
 
       render json: {success: true}
+    end
+
+    def destroy
+      tip = Tip.find(params[:id])
+      tip.update(deleted: true)
+
+      redirect_to edit_recipe_path(params[:recipe_id])
     end
 
     def update

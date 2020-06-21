@@ -145,5 +145,45 @@ document.addEventListener("turbolinks:load", (_event) => {
         )
       }
     })
+
+
+    document.querySelector('.js-RecipeView__tip-create-button').addEventListener('click', (event) => {
+      event.preventDefault();
+
+      let tipFormElement = document.querySelector('.js-RecipeView__tip-create-form')
+
+      let tipBody = {
+        tip: {
+          content: tipFormElement.querySelector('.js-RecipeView__tip-create-form-content').value.trim(),
+          recipe_id: tipFormElement.dataset.recipeId
+        }
+      }
+
+      postJson(
+        `/recipes/${tipBody.tip.recipe_id}/tips`, tipBody, (response) => {
+          window.location.reload();
+        }
+      )
+    });
+
+    document.querySelector('.js-RecipeView__add-tip').addEventListener('click', (event) => {
+      let body = Array.from(document.querySelectorAll('.js-RecipeEditor__tip-checkbox:checked')).reduce((acc, tipCheckboxElement) => {
+
+        acc.tip.content.push(tipCheckboxElement.dataset.content)
+
+        acc.parsed_line_ids.push(tipCheckboxElement.value)
+
+        return acc
+      }, {tip: {content: []}, parsed_line_ids: []})
+
+      postJson(
+        `/recipes/${event.currentTarget.dataset.recipeId}/tips`, {
+          tip: {content: body.tip.content.join(" ")},
+          parsed_line_ids: body.parsed_line_ids
+        }, (response) => {
+          window.location.reload();
+        }
+      )
+    })
   }
 })
