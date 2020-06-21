@@ -1,4 +1,15 @@
 .RecipeView {
+  &__page {
+    textarea {
+      border: 0 none white;
+      overflow: hidden;
+      padding: 0;
+      outline: none;
+      background-color: lightgray;
+      resize: none;
+    }
+  }
+
   &__header {
     display: flex;
     justify-content: space-around;
@@ -39,6 +50,30 @@
     padding-top: 5%;
   }
 
+  &__ingredient-actions-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__steps-update-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__ingredients-update-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__tools-update-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__tips-update-form {
+    display: flex;
+    flex-direction: column;
+  }
 
   &__tab-content {
     display: none;
