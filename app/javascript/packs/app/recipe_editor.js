@@ -248,8 +248,5 @@ document.addEventListener("turbolinks:load", (_event) => {
         });
       })
     })
-
-
-
   }
 })

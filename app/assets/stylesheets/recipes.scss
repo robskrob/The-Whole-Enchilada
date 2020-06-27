@@ -5,7 +5,7 @@
       overflow: hidden;
       padding: 0;
       outline: none;
-      background-color: lightgray;
+      background-color: #f4f4f4;
       resize: none;
     }
   }
@@ -20,58 +20,90 @@
     display: flex;
   }
 
+  &__parsed-line-actions-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 25%;
+    justify-content: space-between;
+    min-height: 80px;
+  }
+
+  &__parsed-line-delete {
+    width: 25%;
+    text-align: right;
+  }
+
+  &__parsed-line-item-container {
+    width: 30%;
+    display: flex;
+    padding-right: 1%;
+  }
+
   &__parsed-lines-container {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
-    max-height: 500px;
+    max-height: 400px;
     overflow: auto;
+    padding: 1%;
   }
 
   &__parsed-line-text {
-    display: list-item;
-    margin-left: 1.3em;
-    list-style-type: circle;
+    width: 50%;
   }
 
   &__steps-container {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
-    min-height: 300px;
     padding-top: 5%;
+    padding-bottom: 15%;
   }
 
   &__step-item-container {
     width: 33%;
   }
 
+  &__item-container {
+    padding-bottom: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
   &__builder-commands-container {
     padding-top: 5%;
   }
 
-  &__ingredient-actions-container {
+  &__actions-container {
+    padding-top: 2%;
     display: flex;
     justify-content: space-between;
   }
 
-  &__steps-update-form {
+  &__steps-form {
     display: flex;
+    width: 100%;
     flex-direction: column;
   }
 
   &__ingredients-update-form {
     display: flex;
+    width: 100%;
     flex-direction: column;
   }
 
   &__tools-update-form {
     display: flex;
+    width: 100%;
     flex-direction: column;
+  }
+
+  &__tips-container {
+    padding-left: 5%;
+    padding-right: 5%;
   }
 
   &__tips-update-form {
     display: flex;
+    width: 100%;
     flex-direction: column;
   }
 
@@ -82,12 +114,13 @@
   &__tabs {
     display: flex;
     list-style-type: none;
+    align-items: center;
     margin: 0;
     padding: 0;
   }
 
   &__tab {
-    color: #999999;
+    color: black;
     cursor: pointer;
     padding: 1em;
   }
@@ -104,5 +137,45 @@
 
   &__tab-content-container {
     background: #f4f4f4;
+  }
+
+  &__content-container {
+    display: none;
+  }
+}
+
+@media(min-width: 1200px) {
+  .RecipeView {
+    &__content-container {
+      display: flex;
+    }
+
+    &__side {
+      padding-left: 1%;
+    }
+
+    &__main {
+      display: flex;
+      flex-wrap: wrap;
+      height: 1000px;
+      justify-content: space-evenly;
+    }
+
+    &__steps-container {
+      width: 30%;
+    }
+
+    &__item-container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    &__tabs {
+      display: none;
+    }
+
+    &__tab-content-container {
+      display: none;
+    }
   }
 }
