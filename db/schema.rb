@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_19_221613) do
+ActiveRecord::Schema.define(version: 2020_06_27_225504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,11 +38,12 @@ ActiveRecord::Schema.define(version: 2020_06_19_221613) do
 
   create_table "images", force: :cascade do |t|
     t.boolean "text_processed", default: false
-    t.bigint "recipe_id"
+    t.bigint "attachable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "alt_text"
-    t.index ["recipe_id"], name: "index_images_on_recipe_id"
+    t.string "attachable_type"
+    t.index ["attachable_id"], name: "index_images_on_attachable_id"
   end
 
   create_table "ingredients", force: :cascade do |t|
@@ -146,7 +147,7 @@ ActiveRecord::Schema.define(version: 2020_06_19_221613) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "images", "recipes"
+  add_foreign_key "images", "recipes", column: "attachable_id"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "parsed_lines", "images"
   add_foreign_key "parsed_lines", "recipes"
