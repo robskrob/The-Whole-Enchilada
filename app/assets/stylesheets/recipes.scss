@@ -142,6 +142,15 @@
   &__content-container {
     display: none;
   }
+
+  &__step-add-icon {
+    display: flex;
+    justify-content: center;
+    min-height: 250px;
+    align-items: center;
+    background: white;
+    margin-bottom: 2em;
+  }
 }
 
 @media(min-width: 1200px) {

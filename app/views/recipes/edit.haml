@@ -175,6 +175,11 @@
       - steps.each do |step|
         .RecipeView__item-container.RecipeView__steps-container
           = form_with(url: recipe_step_path(@recipe.id, step.id), model: step, method: "patch", class: 'RecipeView__steps-form') do |form|
+            = form.fields_for :image do |image_builder|
+              .RecipeView__step-add-icon
+                = svg 'icons8-plus'
+              = form.label(:text_processed, "Only PNG and Jpeg are acceptable")
+              = image_builder.file_field :file, accept: 'image/png,image/jpeg'
             = form.text_field(:title, class: 'RecipeView__step-title')
             = form.text_area(:content, class: 'RecipeView__step-content')
             .RecipeView__actions-container

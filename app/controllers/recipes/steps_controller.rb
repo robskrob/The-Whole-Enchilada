@@ -43,7 +43,7 @@ module Recipes
     private
 
     def step_params
-      params.permit(step: [:content, :recipe_id, :title])[:step]
+      params.permit(step: [:content, :recipe_id, :title, :image])[:step]
     end
 
     def parsed_line_ids_params
