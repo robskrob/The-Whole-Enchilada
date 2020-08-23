@@ -5,12 +5,16 @@ class StepUpdater
     @parsed_line_model_constant = options[:parsed_line_model_constant]
     @parsed_line_ids = options[:parsed_line_ids]
     @step_model_constant = options[:step_model_constant]
+    @step_image_saver_constant = options[:step_image_saver_constant]
     @step_savers = init_factories(options[:step_saver_factories])
   end
 
   def init_factories(factories)
     factories.map do |factory|
-      factory.new(id, attributes, step_model_constant)
+      factory.new(id, attributes, {
+        step_model_constant: step_model_constant,
+        step_image_saver_constant: step_image_saver_constant
+      })
     end
   end
 
@@ -31,6 +35,7 @@ class StepUpdater
     :parsed_line_ids,
     :parsed_line_model_constant,
     :step_model_constant,
+    :step_image_saver_constant,
     :step_savers
 
 end

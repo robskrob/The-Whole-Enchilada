@@ -1,12 +1,12 @@
-class RecipeImageSaver
-  def initialize(file, recipe)
+class StepImageSaver
+  def initialize(file, step_instance)
     @file = file
-    @recipe = recipe
+    @step_instance = step_instance
   end
 
   def run
     if file.present?
-      image = Image.create(attachable_id: recipe.id, attachable_type: 'Recipe')
+      image = Image.create(attachable_id: step_instance.id, attachable_type: 'Step')
 
       tmp_path = "#{Rails.root}/tmp/storage/#{file.original_filename}"
 
@@ -19,10 +19,13 @@ class RecipeImageSaver
         filename: file.original_filename,
         content_type: file.content_type
       )
+
     end
   end
 
+  attr_accessor :step_instance
+
   private
 
-  attr_accessor :file, :recipe
+  attr_accessor :file
 end

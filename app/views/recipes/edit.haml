@@ -22,40 +22,20 @@
     = form.date_field(:date_published)
     = form.submit("update")
 
-  .RecipeView__parsed-lines-container
-    - @recipe.parsed_lines.where(deleted: false).each do |line|
-      .RecipeView__parsed-line-item-container
-        .RecipeView__parsed-line-text=line.content
-        - if line.deleted
-          Deleted true
-        - else
+  .RecipeView__original-text
+    = @recipe.web_recipe.content.html_safe
 
-          .RecipeView__parsed-line-actions-container
-            .RecipeView__parsed-line-action-container
-              / = label_tag 'Ingredient'
-              = check_box_tag :ingredient, line.id, false, class: 'js-RecipeEditor__ingredient-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
-            .RecipeView__parsed-line-action-container
-              / = label_tag 'Step'
-              = check_box_tag :step, line.id, false, class: 'js-RecipeEditor__step-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
-            .RecipeView__parsed-line-action-container
-              / = label_tag 'Tip'
-              = check_box_tag :tip, line.id, false, class: 'js-RecipeEditor__tip-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
-            .RecipeView__parsed-line-action-container
-              / = label_tag 'Tool'
-              = check_box_tag :tool, line.id, false, class: 'js-RecipeEditor__tool-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
-          = link_to 'Delete line', recipe_parsed_line_path(@recipe, line, {type: line.class}), data: {confirm: 'Are you sure?'}, method: :patch, class: 'RecipeView__parsed-line-delete' 
-
-  .RecipeView__builder-commands-container
-    .RecipeView__add-ingredients
-      = link_to 'Add selected ingredients to recipe', '#', class: 'js-RecipeView__add-ingredients'
-    .RecipeView__add-tools
-      = link_to 'Add selected tools to recipe', '#', class: 'js-RecipeView__add-tools'
-    .RecipeView__add-tip
-      = link_to 'Add selected tip to recipe', '#', class: 'js-RecipeView__add-tip', data: {recipe_id: @recipe.id}
-    .RecipeView__add-step
-      = select_tag 'choose step', options_for_select(step_options)
-      = link_to 'Add selected lines to step', '#', class: 'js-RecipeView__add-step'
-
+  .RecipeView__images-container
+    - @recipe.images.with_attached_file.each do |image|
+      .RecipeView__image-container
+        .RecipeView__image-wrapper
+          = image_tag url_for(image.file)
+          - if image.text_processed
+            .RecipeView__image-status
+              Image Has Been Parsed
+          - else
+            = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
+          = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
   .RecipeView__content-container
     .RecipeView__side
       %h2 ingredients
@@ -105,6 +85,11 @@
       - steps.each do |step|
         .RecipeView__item-container.RecipeView__steps-container
           = form_with(url: recipe_step_path(@recipe.id, step.id), model: step, method: "patch", class: 'RecipeView__steps-form') do |form|
+            = form.fields_for :image do |image_builder|
+              .RecipeView__step-add-icon
+                = svg 'icons8-plus'
+              = form.label(:text_processed, "Only PNG and Jpeg are acceptable")
+              = image_builder.file_field :file, accept: 'image/png,image/jpeg'
             = form.text_field(:title, class: 'RecipeView__step-title')
             = form.text_area(:content, class: 'RecipeView__step-content')
             .RecipeView__actions-container
@@ -175,12 +160,16 @@
       - steps.each do |step|
         .RecipeView__item-container.RecipeView__steps-container
           = form_with(url: recipe_step_path(@recipe.id, step.id), model: step, method: "patch", class: 'RecipeView__steps-form') do |form|
-            = form.fields_for :image do |image_builder|
-              .RecipeView__step-add-icon
-                = svg 'icons8-plus'
-              = form.label(:text_processed, "Only PNG and Jpeg are acceptable")
-              = image_builder.file_field :file, accept: 'image/png,image/jpeg'
+            - if step.image.present?
+              = image_tag url_for(step.image.file)
+            - else 
+              = form.fields_for :image do |image_builder|
+                .RecipeView__step-add-icon
+                  = svg 'icons8-plus'
+                = form.label(:text_processed, "Only PNG and Jpeg are acceptable")
+                = image_builder.file_field :file, accept: 'image/png,image/jpeg'
             = form.text_field(:title, class: 'RecipeView__step-title')
+            = form.text_field(:position, class: 'RecipeView__step-position')
             = form.text_area(:content, class: 'RecipeView__step-content')
             .RecipeView__actions-container
               = form.submit("update")
@@ -195,13 +184,3 @@
           = form.submit("create", class: 'js-RecipeView__step-create-button')
 
 
-  .RecipeView__images-container
-    - @recipe.images.with_attached_file.each do |image|
-      .RecipeView__image-container
-        = image_tag url_for(image.file)
-        - if image.text_processed
-          .RecipeView__image-status
-            Image Has Been Parsed
-        - else
-          = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
-        = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 

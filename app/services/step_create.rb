@@ -1,8 +1,9 @@
 class StepCreate
-  def initialize(id, attributes, step_model_constant = Step)
+  def initialize(id, attributes, options = {})
     @id = id
     @attributes = attributes
-    @step_model_constant = step_model_constant
+    @step_model_constant = options[:step_model_constant]
+    @step_image_saver_constant = options[:step_image_saver_constant]
   end
 
   def can_save?
@@ -19,7 +20,12 @@ class StepCreate
   end
 
   def save
-    step_model_constant.create(attributes.merge({position: last_position_value + 1}))
+    step_model_constant.create(
+      content: attributes[:content],
+      position: last_position_value + 1,
+      recipe_id: attributes[:recipe_id],
+      title: attributes[:title]
+    )
   end
 
   private

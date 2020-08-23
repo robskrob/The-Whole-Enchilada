@@ -1,8 +1,9 @@
 class StepOne
-  def initialize(id, attributes, step_model_constant = Step)
+  def initialize(id, attributes, options = {})
     @id = id
     @attributes = attributes
-    @step_model_constant = step_model_constant
+    @step_model_constant = options[:step_model_constant]
+    @step_image_saver_constant = options[:step_image_saver_constant]
   end
 
   def can_save?
@@ -13,7 +14,8 @@ class StepOne
     step_instance = step_model_constant.new({
       content: attributes[:content],
       position: 0,
-      recipe_id: attributes[:recipe_id]
+      recipe_id: attributes[:recipe_id],
+      title: attributes[:title]
     })
 
     step_instance.save

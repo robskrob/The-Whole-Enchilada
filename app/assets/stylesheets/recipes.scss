@@ -10,6 +10,13 @@
     }
   }
 
+  &__original-text {
+    white-space: break-spaces;
+    padding: 1%;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
   &__header {
     display: flex;
     justify-content: space-around;
@@ -18,6 +25,11 @@
 
   &__images-container {
     display: flex;
+  }
+
+  &__image-container {
+    min-width: 250px;
+    padding: 8px;
   }
 
   &__parsed-line-actions-container {

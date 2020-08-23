@@ -1,15 +1,19 @@
 class StepUpdate
-  def initialize(id, attributes, step_model_constant = Step)
+
+  attr_accessor :step_instance
+
+  def initialize(id, attributes, options = {})
     @id = id
     @attributes = attributes
-    @step_model_constant = step_model_constant
+    @step_model_constant = options[:step_model_constant]
+    @step_image_saver_constant = options[:step_image_saver_constant]
   end
 
   def can_save?
     instance = step_model_constant.find_by_id(id)
 
     if instance.present?
-      step_instance = instance
+      self.step_instance = instance
       true
     else
       false
@@ -18,13 +22,18 @@ class StepUpdate
 
   def save
     if step_instance.present?
-      step_instance.update(attributes)
-    else
-      step_model_constant.update(id, attributes)
+      step_instance.update(
+        content: attributes[:content],
+        position: attributes[:position],
+        title: attributes[:title]
+      )
+
+      image_saver = step_image_saver_constant.new(attributes[:image][:file], step_instance)
+      image_saver.run
     end
   end
 
   private
 
-  attr_accessor :id, :attributes, :step_instance, :step_model_constant
+  attr_accessor :id, :attributes, :step_model_constant, :step_image_saver_constant
 end

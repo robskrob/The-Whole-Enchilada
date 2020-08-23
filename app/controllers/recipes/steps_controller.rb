@@ -5,10 +5,11 @@ module Recipes
     def update
       updater = StepUpdater.new({
         id: params[:id],
-        attributes: step_params,
+        attributes: step_params.merge(image: params[:step][:image]),
         parsed_line_model_constant: ParsedLine,
         parsed_line_ids: parsed_line_ids_params,
         step_model_constant: Step,
+        step_image_saver_constant: StepImageSaver,
         step_saver_factories: [StepOne, StepUpdate, StepCreate]
       })
 
@@ -43,7 +44,8 @@ module Recipes
     private
 
     def step_params
-      params.permit(step: [:content, :recipe_id, :title, :image])[:step]
+      params.require(:step).permit(:content, :recipe_id, :title, :position)
+#      params.permit(step: [:content, :recipe_id, :title, :image, :position], image: {})
     end
 
     def parsed_line_ids_params
