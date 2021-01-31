@@ -143,42 +143,45 @@ document.addEventListener("turbolinks:load", (_event) => {
         }
       )
     });
-//
-//    document.querySelector('.js-RecipeView__add-step').addEventListener('click', (event) => {
-//       let body = Array.from(document.querySelectorAll('.js-RecipeEditor__step-checkbox:checked')).reduce((acc, stepCheckboxElement) => {
-//         if (acc.step.recipe_id === 0 ) {
-//           acc.step.recipe_id = stepCheckboxElement.dataset.recipeId
-//         }
-//
-//         acc.step.content.push(stepCheckboxElement.dataset.content)
-//
-//         acc.parsed_line_ids.push(stepCheckboxElement.value)
-//
-//         return acc
-//       }, {step: {content: [], recipe_id: 0}, parsed_line_ids: []})
-//
-//      let stepId = document.querySelector('#choose_step').selectedOptions[0].value
-//
-//      if (stepId) {
-//        patchJson(
-//          `/recipes/${body.step.recipe_id}/steps/${stepId}`, {
-//            step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
-//            parsed_line_ids: body.parsed_line_ids
-//          }, (response) => {
-//            window.location.reload();
-//          }
-//        )
-//      } else {
-//        postJson(
-//          `/recipes/${body.step.recipe_id}/steps`, {
-//            step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
-//            parsed_line_ids: body.parsed_line_ids
-//          }, (response) => {
-//            window.location.reload();
-//          }
-//        )
-//      }
-//    })
+
+    document.querySelector('.js-RecipeView__assign-image-step').addEventListener('click', (event) => {
+      // /recipes/:recipe_id/steps/:id
+       let body = Array.from(document.querySelectorAll('.js-RecipeEditor__step-checkbox:checked')).reduce((acc, stepCheckboxElement) => {
+         if (acc.step.recipe_id === 0 ) {
+           acc.step.recipe_id = stepCheckboxElement.dataset.recipeId
+         }
+
+         acc.step.content.push(stepCheckboxElement.dataset.content)
+
+         acc.parsed_line_ids.push(stepCheckboxElement.value)
+
+         return acc
+       }, {step: {content: [], recipe_id: 0}, parsed_line_ids: []})
+
+      let stepId = document.querySelector('#choose_step').selectedOptions[0].value
+
+      // stepId and imageId
+
+      if (stepId) {
+        patchJson(
+          `/recipes/${body.step.recipe_id}/steps/${stepId}`, {
+            step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
+            parsed_line_ids: body.parsed_line_ids
+          }, (response) => {
+            window.location.reload();
+          }
+        )
+      } else {
+        postJson(
+          `/recipes/${body.step.recipe_id}/steps`, {
+            step: {content: body.step.content.join(" "), recipe_id: body.step.recipe_id},
+            parsed_line_ids: body.parsed_line_ids
+          }, (response) => {
+            window.location.reload();
+          }
+        )
+      }
+    })
 
 
     document.querySelector('.js-RecipeView__tip-create-button').addEventListener('click', (event) => {

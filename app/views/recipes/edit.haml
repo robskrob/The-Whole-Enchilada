@@ -10,6 +10,24 @@
 
   - step_options = recipe_builder_presenter.step_options
 
+  .RecipeView__original-text
+    = @recipe.web_recipe.content.html_safe
+
+  .RecipeView__images-container
+    - @recipe.images.with_attached_file.each do |image|
+      .RecipeView__image-container
+        .RecipeView__image-wrapper
+          = image_tag url_for(image.file), data: {image_id: image.id}
+          - if image.text_processed
+            .RecipeView__image-status
+              Image Has Been Parsed
+          - else
+            = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
+          = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
+        .RecipeView__add-step
+          = link_to 'Assign image to step', '#', class: 'js-RecipeView__assign-image-step', data: {image_id: image.id}
+          = select_tag 'choose step', options_for_select(step_options)
+
   = form_with(model: @recipe, method: "patch") do |form|
     = form.label(:title, "Title")
     = form.text_field(:title)
@@ -22,20 +40,6 @@
     = form.date_field(:date_published)
     = form.submit("update")
 
-  .RecipeView__original-text
-    = @recipe.web_recipe.content.html_safe
-
-  .RecipeView__images-container
-    - @recipe.images.with_attached_file.each do |image|
-      .RecipeView__image-container
-        .RecipeView__image-wrapper
-          = image_tag url_for(image.file)
-          - if image.text_processed
-            .RecipeView__image-status
-              Image Has Been Parsed
-          - else
-            = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
-          = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
   .RecipeView__content-container
     .RecipeView__side
       %h2 ingredients

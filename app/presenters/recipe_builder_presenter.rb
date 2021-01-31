@@ -14,9 +14,7 @@ class RecipeBuilderPresenter
     end
 
     if options.present?
-      new_step_number = steps.last.position + 2
-
-      options.push([new_step_number.ordinalize, ''])
+      options
     else
       ["1st", 0]
     end
