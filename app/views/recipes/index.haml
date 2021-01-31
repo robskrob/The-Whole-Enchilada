@@ -2,6 +2,15 @@
   - @recipes.each do |recipe|
     %li= link_to(recipe.title, recipe_path(recipe.id))
 
+= form_tag recipes_path, method: :get, class: "RecipesList__search-input", role: "search" do
+  %p
+    = text_field_tag :search, params[:search], class: "form-control"
+    = submit_tag "Search", name: nil, class: "btn btn-default"
+
+%ul
+  - @searched.each do |recipe|
+    %li= link_to(recipe.title, recipe_path(recipe.id))
+
 - if current_user
   %h2= link_to("Create", new_recipe_path)
 - else

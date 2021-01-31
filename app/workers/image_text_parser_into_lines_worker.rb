@@ -1,4 +1,4 @@
-class ImageTextParserWorker
+class ImageTextParserIntoLinesWorker
   include Sidekiq::Worker
 
   def perform(image_id)
@@ -9,11 +9,7 @@ class ImageTextParserWorker
 
       text = parser.generate_text
 
-      existing_text = image.attachable.full_text.to_s
-
-      updated = existing_text + text
-
-      image.attachable.update(full_text: updated)
+      ParsedLinesInserterWorker.perform_async(text, image.recipe_id, {image_id: image.id})
     end
   end
 end

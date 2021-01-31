@@ -1,4 +1,5 @@
 class Recipe < ApplicationRecord
+  searchkick
   has_many :images, dependent: :destroy, as: :attachable
 
   has_many :ingredients, dependent: :destroy

@@ -31,7 +31,14 @@ class RecipesController < ApplicationController
   end
 
   def index
+    params[:search]
     @recipes = Recipe.first(20)
+
+    if params[:search]
+      @searched = Recipe.search(params[:search])
+    else
+      @searched = []
+    end
   end
 
   def new

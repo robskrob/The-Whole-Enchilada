@@ -1,33 +1,19 @@
-.RecipeView__header
+%main
+  .RecipeView__header
   %h2= @recipe.title
   - if current_user && current_user.id == @recipe.user_id 
     = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
-.RecipeView__parsed-lines-container
-  - @recipe.parsed_lines.each do |line|
-    .RecipeView__parsed-line-item-container
-      .RecipeView__parsed-line-text=line.content
-      - if line.deleted
-        Deleted true
-      - else
-        = link_to 'Delete line', recipe_parsed_line_path(@recipe, line, {type: line.class}), data: {confirm: 'Are you sure?'}, method: :patch, class: 'RecipeView__parsed-line-delete' 
+  .RecipeView__full-text-container
+    = @recipe.full_text
 
-      .RecipeView__parsed-line-actions-container
-        .RecipeView__parsed-line-action-container
-          = label_tag 'Ingredient'
-          = check_box_tag :ingredient
-        .RecipeView__parsed-line-action-container
-          = label_tag 'Tool'
-          = check_box_tag :tool
-        .RecipeView__parsed-line-action-container
-          = label_tag 'Step'
-          = check_box_tag :step
 
-.RecipeView__images-container
-  - @recipe.images.with_attached_file.each do |image|
-    .RecipeView__image-container
-      = image_tag url_for(image.file)
-      - if image.text_processed
-        .RecipeView__image-status
-          Image Has Been Parsed
-      - else
-        = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
+  .RecipeView__images-container
+    - @recipe.images.with_attached_file.each do |image|
+      .RecipeView__image-container
+        = image_tag url_for(image.file)
+        - if image.text_processed
+          .RecipeView__image-status
+            Image Has Been Parsed
+        - else
+          = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
+        = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
