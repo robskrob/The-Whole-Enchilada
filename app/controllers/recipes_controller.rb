@@ -12,7 +12,6 @@ class RecipesController < ApplicationController
     @recipe.save
 
     if params[:recipe][:images].present? && params[:recipe][:images][:file].present?
-      byebug
       image = @recipe.images.create
       file = params[:recipe][:images][:file]
 
