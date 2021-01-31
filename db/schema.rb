@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_30_194055) do
+ActiveRecord::Schema.define(version: 2020_08_23_174010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,11 +38,12 @@ ActiveRecord::Schema.define(version: 2020_05_30_194055) do
 
   create_table "images", force: :cascade do |t|
     t.boolean "text_processed", default: false
-    t.bigint "recipe_id"
+    t.bigint "attachable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "alt_text"
-    t.index ["recipe_id"], name: "index_images_on_recipe_id"
+    t.string "attachable_type"
+    t.index ["attachable_id"], name: "index_images_on_attachable_id"
   end
 
   create_table "ingredients", force: :cascade do |t|
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 2020_05_30_194055) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "position", default: 0
+    t.boolean "deleted", default: false
     t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
   end
 
@@ -94,7 +96,18 @@ ActiveRecord::Schema.define(version: 2020_05_30_194055) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "position", null: false
+    t.string "title"
+    t.boolean "deleted", default: false
     t.index ["recipe_id"], name: "index_steps_on_recipe_id"
+  end
+
+  create_table "tips", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "recipe_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "deleted", default: false
+    t.index ["recipe_id"], name: "index_tips_on_recipe_id"
   end
 
   create_table "tools", force: :cascade do |t|
@@ -103,6 +116,7 @@ ActiveRecord::Schema.define(version: 2020_05_30_194055) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "position", default: 0
+    t.boolean "deleted", default: false
     t.index ["recipe_id"], name: "index_tools_on_recipe_id"
   end
 
@@ -133,7 +147,6 @@ ActiveRecord::Schema.define(version: 2020_05_30_194055) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "images", "recipes"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "parsed_lines", "images"
   add_foreign_key "parsed_lines", "recipes"
@@ -142,5 +155,6 @@ ActiveRecord::Schema.define(version: 2020_05_30_194055) do
   add_foreign_key "recipes", "users"
   add_foreign_key "recipes", "web_recipes"
   add_foreign_key "steps", "recipes"
+  add_foreign_key "tips", "recipes"
   add_foreign_key "tools", "recipes"
 end
