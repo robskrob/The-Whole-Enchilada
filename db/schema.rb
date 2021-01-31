@@ -38,12 +38,12 @@ ActiveRecord::Schema.define(version: 2020_08_23_174010) do
 
   create_table "images", force: :cascade do |t|
     t.boolean "text_processed", default: false
-    t.bigint "attachable_id"
+    t.bigint "recipe_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "alt_text"
     t.string "attachable_type"
-    t.index ["attachable_id"], name: "index_images_on_attachable_id"
+    t.index ["recipe_id"], name: "index_images_on_recipe_id"
   end
 
   create_table "ingredients", force: :cascade do |t|
