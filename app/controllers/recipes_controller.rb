@@ -30,6 +30,13 @@ class RecipesController < ApplicationController
     @text = []
   end
 
+  def destroy
+    @recipe = Recipe.find(params[:id])
+    @recipe.destroy
+
+    redirect_to recipes_path
+  end
+
   def index
     params[:search]
     @recipes = Recipe.first(20)
