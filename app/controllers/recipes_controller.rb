@@ -57,7 +57,7 @@ class RecipesController < ApplicationController
         description: params[:recipe][:description],
         title: params[:recipe][:title]
       },
-      recipe_asset: params[:recipe][:images][:file],
+      recipe_asset: params[:recipe][:images],
       recipe_image_saver: RecipeImageSaver,
       recipe_attributes_saver: RecipeAttributesSaver
     })

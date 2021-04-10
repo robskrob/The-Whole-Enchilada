@@ -2,7 +2,7 @@ class RecipeUpdater
   def initialize(options = {})
     @recipe_id = options[:recipe_id]
     @recipe_attributes = options[:recipe]
-    @recipe_asset = options[:recipe_asset]
+    @recipe_asset = assign_asset(options[:recipe_asset])
     @recipe_image_saver_factory = options[:recipe_image_saver]
     @recipe_attributes_saver_factory = options[:recipe_attributes_saver]
   end
@@ -20,6 +20,14 @@ class RecipeUpdater
   end
 
   private
+
+  def assign_asset(asset)
+    if asset
+      asset[:file]
+    else
+      {}
+    end
+  end
 
   attr_accessor :recipe_asset, :recipe_id, :recipe_attributes,
     :recipe_image_saver_factory, :recipe_attributes_saver_factory
