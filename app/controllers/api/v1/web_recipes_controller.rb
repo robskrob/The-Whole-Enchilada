@@ -11,10 +11,9 @@ class Api::V1::WebRecipesController < ApplicationController
 
       recipe = Recipe.create(
         title: web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
-        web_recipe_id: web_recipe.id
+        web_recipe_id: web_recipe.id,
+        full_text: web_recipe.content
       )
-
-      ParsedLinesInserterWorker.perform_async(web_recipe.content, recipe.id)
 
       message = {message: "Recipe saved!", recipe: recipe, success: true}
     end

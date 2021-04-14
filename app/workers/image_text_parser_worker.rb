@@ -13,6 +13,7 @@ class ImageTextParserWorker
 
       updated = existing_text + text
 
+      # this updates recipe full text
       image.attachable.update(full_text: updated)
     end
   end
