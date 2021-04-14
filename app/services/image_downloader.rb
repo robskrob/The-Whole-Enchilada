@@ -3,7 +3,7 @@ require 'open-uri'
 class ImageDownloader
   def initialize(source)
     @source = source
-    @uri = URI.parse(source)
+    @uri = parse_uri(source)
   end
 
   def save_to_tmp_storage
@@ -17,6 +17,14 @@ class ImageDownloader
   end
 
   private
+
+  def parse_uri(source)
+    begin
+      URI.parse(source)
+    rescue URI::InvalidURIError
+      URI.parse(URI.escape(source))
+    end
+  end
 
   def tmp_path
     "#{Rails.root}/tmp/storage/#{filename}"
