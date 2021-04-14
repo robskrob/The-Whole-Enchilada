@@ -1,5 +1,9 @@
 .RecipeView {
   max-width: 100%;
+  &__full-text-container {
+    white-space: pre;
+  }
+
   &__header {
     display: flex;
     justify-content: space-around;
