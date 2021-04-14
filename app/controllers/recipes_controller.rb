@@ -39,7 +39,7 @@ class RecipesController < ApplicationController
 
   def index
     params[:search]
-    @recipes = Recipe.first(20)
+    @recipes = Recipe.all
 
     if params[:search]
       @searched = Recipe.search(params[:search])
