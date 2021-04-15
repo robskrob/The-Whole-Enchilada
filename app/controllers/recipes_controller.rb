@@ -62,6 +62,7 @@ class RecipesController < ApplicationController
       recipe: {
         published_at: params[:recipe][:date_published],
         description: params[:recipe][:description],
+        full_text: params[:recipe][:full_text],
         title: params[:recipe][:title]
       },
       recipe_asset: params[:recipe][:images],

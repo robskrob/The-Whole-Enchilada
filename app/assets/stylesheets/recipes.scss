@@ -23,4 +23,14 @@
     }
   }
 
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  &__form > * {
+    width: 100%;
+  }
+
 }
