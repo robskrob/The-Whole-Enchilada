@@ -19,6 +19,7 @@ gem 'devise', '4.7.1'
 gem 'letter_opener', '1.7.0'
 gem 'aws-ses', '0.6.0'
 gem 'searchkick', '4.4.2'
+gem 'pagy', '3.12.0'
 
 group :production do
   gem 'aws-sdk-s3', '1.61.2'

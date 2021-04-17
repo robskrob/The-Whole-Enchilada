@@ -2,6 +2,9 @@
   - @recipes.each do |recipe|
     %li= link_to(recipe.title, recipe_path(recipe.id))
 
+- if @pagy.present?
+  = pagy_nav(@pagy).html_safe
+
 = form_tag recipes_path, method: :get, class: "RecipesList__search-input", role: "search" do
   %p
     = text_field_tag :search, params[:search], class: "form-control"
@@ -10,6 +13,9 @@
 %ul
   - @searched.each do |recipe|
     %li= link_to(recipe.title, recipe_path(recipe.id))
+
+- if @pagy_search.present?
+  = pagy_nav(@pagy_search).html_safe
 
 - if current_user
   %h2= link_to("Create", new_recipe_path)

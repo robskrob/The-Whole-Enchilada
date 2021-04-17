@@ -1,4 +1,5 @@
 class RecipesController < ApplicationController
+  include Pagy::Backend
 
   before_action :authenticate_user!, :except => [:index]
 
@@ -38,11 +39,12 @@ class RecipesController < ApplicationController
   end
 
   def index
-    params[:search]
-    @recipes = Recipe.all
+    @pagy, @recipes = pagy(Recipe.all)
 
     if params[:search]
       @searched = Recipe.search(params[:search])
+      @pagy_search = Pagy.new_from_searchkick(@searched)
+
     else
       @searched = []
     end
