@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   root to: 'pages#home'
 
+  get '/health-check', to: 'application#health'
+
   devise_for :users, skip: :all, skip_helpers: true
 
   devise_scope :user do
