@@ -1,23 +1,40 @@
-%ul
-  - @recipes.each do |recipe|
-    %li= link_to(recipe.title, recipe_path(recipe.id))
+.recipes
+  %ul
+    - @recipes.each_with_index do |recipe, index|
+      %li
+        .card
+          - featured = recipe.images.find { |img| img.featured }
+          - if featured
+            .featured-img
+              = image_tag url_for(featured.file)
+          .title
+            = link_to(recipe.title, recipe_path(recipe.id))
 
-- if @pagy.present?
-  = pagy_nav(@pagy).html_safe
 
-= form_tag recipes_path, method: :get, class: "RecipesList__search-input", role: "search" do
-  %p
-    = text_field_tag :search, params[:search], class: "form-control"
-    = submit_tag "Search", name: nil, class: "btn btn-default"
+  - if @pagy.present?
+    = pagy_nav(@pagy).html_safe
 
-%ul
-  - @searched.each do |recipe|
-    %li= link_to(recipe.title, recipe_path(recipe.id))
+  %h2 Search Form
+  = form_tag recipes_path, method: :get, class: "RecipesList__search-input", role: "search" do
+    %p
+      = text_field_tag :search, params[:search], class: "form-control"
+      = submit_tag "Search", name: nil, class: "btn btn-default"
 
-- if @pagy_search.present?
-  = pagy_nav(@pagy_search).html_safe
+  %ul
+    - @searched.each do |recipe|
+      %li
+        .card
+          - featured = recipe.images.find { |img| img.featured }
+          - if featured
+            .featured-img
+              = image_tag url_for(featured.file)
+          .title
+            = link_to(recipe.title, recipe_path(recipe.id))
 
-- if current_user
-  %h2= link_to("Create", new_recipe_path)
-- else
-  %h2= link_to("Create", new_session_path)
+  - if @pagy_search.present?
+    = pagy_nav(@pagy_search).html_safe
+
+  - if current_user
+    %h2= link_to("Create", new_recipe_path)
+  - else
+    %h2= link_to("Create", new_session_path)

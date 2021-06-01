@@ -39,7 +39,7 @@ class RecipesController < ApplicationController
   end
 
   def index
-    @pagy, @recipes = pagy(Recipe.all)
+    @pagy, @recipes = pagy(Recipe.all.order(created_at: :desc))
 
     if params[:search]
       @searched = Recipe.search(params[:search])
