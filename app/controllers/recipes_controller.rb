@@ -39,10 +39,14 @@ class RecipesController < ApplicationController
   end
 
   def index
-    @pagy, @recipes = pagy(Recipe.all.order(created_at: :desc))
+    @pagy, @recipes = pagy(
+      Recipe.includes(:images).merge(
+        Image.with_attached_file
+      ).all.order(created_at: :desc)
+    )
 
     if params[:search]
-      @searched = Recipe.search(params[:search])
+      @searched = Recipe.search(params[:search], page: params[:page], per_page: 20)
       @pagy_search = Pagy.new_from_searchkick(@searched)
 
     else
