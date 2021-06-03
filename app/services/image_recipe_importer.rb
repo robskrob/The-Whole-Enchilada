@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# app/services/image_recipe_downloader.rb
 class ImageRecipeImporter
   def initialize(alt_text, recipe_id, source, factory_options = {})
     @alt_text = alt_text

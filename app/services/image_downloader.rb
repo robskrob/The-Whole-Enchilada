@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 
+# app/services/image_downloader.rb
 class ImageDownloader
   def initialize(source)
     @uri = parse_uri(source)

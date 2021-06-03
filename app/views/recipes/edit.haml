@@ -41,3 +41,5 @@
         - else
           = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
         = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
+        - if image.featured.blank?
+          = link_to 'Make Featured', "/recipes/#{@recipe.id}/images/#{image.id}/featured", method: :patch 
