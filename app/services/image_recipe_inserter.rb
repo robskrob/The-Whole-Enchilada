@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# app/services/image_recipe_inserter.rb
 class ImageRecipeInserter
   include ActionView::Helpers::TextHelper
 
@@ -8,9 +11,7 @@ class ImageRecipeInserter
   end
 
   def associate_and_insert
-    image = recipe.images.create(alt_text: valid_alt_text_length)
-
-    image.file.attach(
+    create_image.file.attach(
       io: File.open(tmp_path),
       filename: filename
     )
@@ -18,9 +19,26 @@ class ImageRecipeInserter
 
   private
 
+  def create_image
+    if recipe.images.present?
+      Image.create(
+        alt_text: valid_alt_text_length,
+        attachable_id: recipe.id,
+        attachable_type: 'Recipe'
+      )
+    else
+      Image.create(
+        alt_text: valid_alt_text_length,
+        attachable_id: recipe.id,
+        attachable_type: 'Recipe',
+        featured: true
+      )
+    end
+  end
+
   def valid_alt_text_length
     if alt_text.to_s.length > Image::ALT_TEXT_CHAR_LIMIT
-      truncate(alt_text, length: 250)
+      truncate(alt_text, length: Image::ALT_TEXT_CHAR_LIMIT)
     else
       alt_text
     end
@@ -31,5 +49,4 @@ class ImageRecipeInserter
   end
 
   attr_accessor :alt_text, :filename, :recipe
-
 end

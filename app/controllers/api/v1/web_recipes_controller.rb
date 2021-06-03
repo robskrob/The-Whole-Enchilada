@@ -11,10 +11,10 @@ class Api::V1::WebRecipesController < ApplicationController
 
       recipe = Recipe.create(
         title: web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
-        web_recipe_id: web_recipe.id
+        web_recipe_id: web_recipe.id,
+        full_text: web_recipe.content,
+        user_id: rob_id(User.find_by_email('jewell.robertp@gmail.com'))
       )
-
-      ParsedLinesInserterWorker.perform_async(web_recipe.content, recipe.id)
 
       message = {message: "Recipe saved!", recipe: recipe, success: true}
     end
@@ -23,6 +23,14 @@ class Api::V1::WebRecipesController < ApplicationController
   end
 
   private
+
+  # DELETE THIS once we have user authentication from chrome
+  # extension tool
+  def rob_id(user)
+    if user
+      user.id
+    end
+  end
 
   def web_recipe_params
     params.permit(:content, :host_origin, :name, :pathname)

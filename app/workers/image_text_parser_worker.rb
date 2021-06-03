@@ -9,7 +9,12 @@ class ImageTextParserWorker
 
       text = parser.generate_text
 
-      ParsedLinesInserterWorker.perform_async(text, image.recipe_id, {image_id: image.id})
+      existing_text = image.attachable.full_text.to_s
+
+      updated = existing_text + text
+
+      # this updates recipe full text
+      image.attachable.update(full_text: updated)
     end
   end
 end

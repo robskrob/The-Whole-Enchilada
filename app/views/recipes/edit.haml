@@ -9,7 +9,7 @@
     - number = step.position + 1
     - [number.ordinalize, step.id]
 
-  = form_with(model: @recipe, method: "patch") do |form|
+  = form_with(model: @recipe, method: "patch", class: 'RecipeView__form') do |form|
     = form.label(:title, "Title")
     = form.text_field(:title)
     = form.label(:description, "Description")
@@ -17,59 +17,19 @@
     = form.fields_for :images do |image_builder|
       = form.label(:text_processed, "Only PNG and Jpeg are acceptable")
       = image_builder.file_field :file, accept: 'image/png,image/jpeg'
+    = form.label(:full_text, "Full Text")
+    = form.text_area(:full_text)
     = form.label(:date_published, "Date Published")
     = form.date_field(:date_published)
     = form.submit("update")
 
-  .RecipeView__parsed-lines-container
-    - @recipe.parsed_lines.where(deleted: false).each do |line|
-      .RecipeView__parsed-line-item-container
-        .RecipeView__parsed-line-text=line.content
-        - if line.deleted
-          Deleted true
-        - else
-          = link_to 'Delete line', recipe_parsed_line_path(@recipe, line, {type: line.class}), data: {confirm: 'Are you sure?'}, method: :patch, class: 'RecipeView__parsed-line-delete' 
 
-        .RecipeView__parsed-line-actions-container
-          .RecipeView__parsed-line-action-container
-            = label_tag 'Ingredient'
-            = check_box_tag :ingredient, line.id, false, class: 'js-RecipeEditor__ingredient-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
-          .RecipeView__parsed-line-action-container
-            = label_tag 'Tool'
-            = check_box_tag :tool, line.id, false, class: 'js-RecipeEditor__tool-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
-          .RecipeView__parsed-line-action-container
-            = label_tag 'Step'
-            = check_box_tag :step, line.id, false, class: 'js-RecipeEditor__step-checkbox', data: {content: line.content, recipe_id: line.recipe_id}
+  %button
+    = link_to 'Delete Recipe', recipe_path(@recipe), data: {confirm: 'Are you sure?'}, method: :delete 
 
-  .RecipeView__builder-commands-container
-    .RecipeView__add-ingredients
-      = link_to 'Add selected ingredients to recipe', '#', class: 'js-RecipeView__add-ingredients'
-    .RecipeView__add-tools
-      = link_to 'Add selected tools to recipe', '#', class: 'js-RecipeView__add-tools'
-    .RecipeView__add-step
-      = select_tag 'choose step', options_for_select(step_options)
-      = link_to 'Add selected lines to step', '#', class: 'js-RecipeView__add-step'
+  .RecipeView__full-text-container
+    = @recipe.full_text
 
-  %h2 ingredients
-  .RecipeView__ingredients-container
-    - ingredients.each do |ingredient|
-      .RecipeView__ingredient-item-container
-        .RecipeView__ingredient-content
-          = ingredient.content
-
-  %h2 tools
-  .RecipeView__tools-container
-    - tools.each do |tool|
-      .RecipeView__tool-item-container
-        .RecipeView__tool-content
-          = tool.content
-
-  %h2 steps
-  .RecipeView__steps-container
-    - steps.each do |step|
-      .RecipeView__step-item-container
-        .RecipeView__step-content
-          = step.content
 
   .RecipeView__images-container
     - @recipe.images.with_attached_file.each do |image|
@@ -81,3 +41,5 @@
         - else
           = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
         = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
+        - if image.featured.blank?
+          = link_to 'Make Featured', "/recipes/#{@recipe.id}/images/#{image.id}/featured", method: :patch 

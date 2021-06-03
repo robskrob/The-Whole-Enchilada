@@ -14,6 +14,8 @@ Rails.application.configure do
 
   config.webpacker.check_yarn_integrity = false
 
+  config.hosts.clear
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?

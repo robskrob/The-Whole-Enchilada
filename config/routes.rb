@@ -5,6 +5,9 @@ Rails.application.routes.draw do
 
   root to: 'pages#home'
 
+  get '/health-check', to: 'application#health'
+  patch '/recipes/:recipe_id/images/:id/featured', to: 'recipes/images#featured'
+
   devise_for :users, skip: :all, skip_helpers: true
 
   devise_scope :user do

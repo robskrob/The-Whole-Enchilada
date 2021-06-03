@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# app/services/recipe_image_saver.rb
 class RecipeImageSaver
   def initialize(file, recipe)
     @file = file
@@ -6,15 +9,11 @@ class RecipeImageSaver
 
   def run
     if file.present?
-      image = recipe.images.create
-
-      tmp_path = "#{Rails.root}/tmp/storage/#{file.original_filename}"
-
-      File.open("#{tmp_path}",'wb') do |f|
+      File.open(tmp_path.to_s,'wb') do |f|
         f.write file.read
       end
 
-      image.file.attach(
+      create_image.file.attach(
         io: File.open(file.path),
         filename: file.original_filename,
         content_type: file.content_type
@@ -23,6 +22,22 @@ class RecipeImageSaver
   end
 
   private
+
+  def create_image
+    if recipe.images.length
+      Image.create(attachable_id: recipe.id, attachable_type: 'Recipe')
+    else
+      Image.create(
+        attachable_id: recipe.id,
+        attachable_type: 'Recipe',
+        featured: true
+      )
+    end
+  end
+
+  def tmp_path
+    "#{Rails.root}/tmp/storage/#{file.original_filename}"
+  end
 
   attr_accessor :file, :recipe
 end

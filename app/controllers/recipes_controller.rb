@@ -1,4 +1,5 @@
 class RecipesController < ApplicationController
+  include Pagy::Backend
 
   before_action :authenticate_user!, :except => [:index]
 
@@ -30,8 +31,27 @@ class RecipesController < ApplicationController
     @text = []
   end
 
+  def destroy
+    @recipe = Recipe.find(params[:id])
+    @recipe.destroy
+
+    redirect_to recipes_path
+  end
+
   def index
-    @recipes = Recipe.first(20)
+    @pagy, @recipes = pagy(
+      Recipe.includes(:images).merge(
+        Image.with_attached_file
+      ).all.order(created_at: :desc)
+    )
+
+    if params[:search]
+      @searched = Recipe.search(params[:search], page: params[:page], per_page: 20)
+      @pagy_search = Pagy.new_from_searchkick(@searched)
+
+    else
+      @searched = []
+    end
   end
 
   def new
@@ -48,9 +68,10 @@ class RecipesController < ApplicationController
       recipe: {
         published_at: params[:recipe][:date_published],
         description: params[:recipe][:description],
+        full_text: params[:recipe][:full_text],
         title: params[:recipe][:title]
       },
-      recipe_asset: params[:recipe][:images][:file],
+      recipe_asset: params[:recipe][:images],
       recipe_image_saver: RecipeImageSaver,
       recipe_attributes_saver: RecipeAttributesSaver
     })
