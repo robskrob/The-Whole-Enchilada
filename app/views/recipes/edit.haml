@@ -1,5 +1,6 @@
 %main.RecipeView.js-RecipeEditor
   %h1 editing recipe
+  %h2= link_to('View Recipe', recipe_path(@recipe.id))
 
   - ingredients = @recipe.ingredients
   - steps = @recipe.steps
