@@ -1,8 +1,27 @@
 .RecipeView {
   max-width: 100%;
-  &__full-text-container {
-    white-space: pre;
+
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+  textarea {
+    min-height: 300px;
   }
+
+  &> * {
+
+    max-width: 100%;
+
+    overflow: hidden;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+  }
+
 
   &__header {
     display: flex;

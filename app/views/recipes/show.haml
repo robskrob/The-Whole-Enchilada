@@ -1,8 +1,9 @@
 %main.RecipeView.js-RecipeShow
   .RecipeView__header
   %h2= @recipe.title
-  - if current_user && current_user.id == @recipe.user_id 
-    = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
+  - if @recipe.web_recipe.present?
+    = link_to("Visit Original recipe", @recipe.web_recipe.full_path, target: '_blank')
+  = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
   .RecipeView__full-text-container
     = @recipe.full_text
 
