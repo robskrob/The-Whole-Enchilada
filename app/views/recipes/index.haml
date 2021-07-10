@@ -1,40 +1,43 @@
-.recipes
-  %ul
-    - @recipes.each_with_index do |recipe, index|
-      %li
-        .card
-          - featured = recipe.images.find { |img| img.featured }
-          - if featured
-            .featured-img
-              = image_tag url_for(featured.file)
-          .title
-            = link_to(recipe.title, recipe_path(recipe.id))
+.recipes-container.my-0.m-auto.max-w-screen-xl
+  - if @pagy_search.blank?
+    .recipes.flex.flex-col.justify-center.items-center.-mt-0.m-auto.mb-40
+      %ul.flex.flex-wrap
+        - @recipes.each_with_index do |recipe, index|
+          %li.p-4.text-lg
+            .card
+              - featured = recipe.images.find { |img| img.featured }
+              - if featured
+                .featured-img
+                  = image_tag url_for(featured.file)
+              .title
+                = link_to(recipe.title, recipe_path(recipe.id))
 
 
-  - if @pagy.present?
-    = pagy_nav(@pagy).html_safe
+      - if @pagy.present?
+        = pagy_nav(@pagy).html_safe
 
-  %h2 Search Form
-  = form_tag recipes_path, method: :get, class: "RecipesList__search-input", role: "search" do
-    %p
-      = text_field_tag :search, params[:search], class: "form-control"
-      = submit_tag "Search", name: nil, class: "btn btn-default"
+  .recipes-searched.flex.flex-col.justify-center.items-center.my-0.m-auto
+    %h2.w-full.text-3xl	 Search Form
+    = form_tag recipes_path, method: :get, class: "RecipesList__search-input w-full", role: "search" do
+      %p
+        = text_field_tag :search, params[:search], class: "form-control w-1/4"
+        = submit_tag "Search", name: nil, class: "btn btn-default"
 
-  %ul
-    - @searched.each do |recipe|
-      %li
-        .card
-          - featured = recipe.images.find { |img| img.featured }
-          - if featured
-            .featured-img
-              = image_tag url_for(featured.file)
-          .title
-            = link_to(recipe.title, recipe_path(recipe.id))
+    %ul.flex.flex-wrap
+      - @searched.each do |recipe|
+        %li.p-4.text-lg
+          .card
+            - featured = recipe.images.find { |img| img.featured }
+            - if featured
+              .featured-img.max-w-sm
+                = image_tag url_for(featured.file)
+            .title
+              = link_to(recipe.title, recipe_path(recipe.id))
 
-  - if @pagy_search.present?
-    = pagy_nav(@pagy_search).html_safe
+    - if @pagy_search.present?
+      = pagy_nav(@pagy_search).html_safe
 
-  - if current_user
-    %h2= link_to("Create", new_recipe_path)
-  - else
-    %h2= link_to("Create", new_session_path)
+    - if current_user
+      %h2= link_to("Create", new_recipe_path)
+    - else
+      %h2= link_to("Create", new_session_path)
