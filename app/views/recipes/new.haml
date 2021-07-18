@@ -1,12 +1,6 @@
 %main.recipes
   %h1 new
-  = form_with(model: @recipe, method: "post") do |form|
-    = form.label(:title, "Title")
-    = form.text_field(:title)
-    = form.label(:description, "Description")
-    = form.text_area(:description)
-    = form.fields_for :images do |image_builder|
-      = image_builder.file_field :file, accept: 'image/png,image/jpeg'
-    = form.label(:date_published, "Date Published")
-    = form.date_field(:date_published)
+  = form_for(:web_recipe, url: "/web_recipes", method: 'post') do |form|
+    = form.label(:url, "URL")
+    = form.text_field(:url)
     = form.submit("create")

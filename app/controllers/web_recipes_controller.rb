@@ -5,6 +5,7 @@
 require 'open-uri'
 
 class WebRecipesController < ApplicationController
+
   def create
 
     # url = "https://cooking.nytimes.com/recipes/1022285-sweet-and-sour-pork?module=Recipe+of+The+Day&pgType=homepage&action=click"
@@ -18,9 +19,15 @@ class WebRecipesController < ApplicationController
 
     recipe_text = HtmlPageParser.new(html_response_string).inner_text
 
-    uri.host
-    uri.path
-    name = uri.host + uri.path
+    WebRecipe.create({
+      content: recipe_text,
+      host_origin: uri.host,
+      name: uri.path + uri.host,
+      pathname: uri.path
+    })
+
+
+
 
   end
 end

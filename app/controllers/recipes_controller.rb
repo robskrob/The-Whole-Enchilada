@@ -55,7 +55,7 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @recipe = Recipe.new
+    @recipe = WebRecipe.new
   end
 
   def show
