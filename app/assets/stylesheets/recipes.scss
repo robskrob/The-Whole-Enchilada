@@ -6,6 +6,10 @@
   flex-direction: column;
   margin: 0 auto;
 
+  .selected {
+    border: solid 2px yellow;
+  }
+
   textarea {
     min-height: 300px;
   }
@@ -27,6 +31,16 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+  }
+
+
+  &__web-images {
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+
+  &__web-image {
+    border: solid 2px transparent;
   }
 
   &__images-container {

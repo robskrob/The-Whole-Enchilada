@@ -1,6 +1,6 @@
 %main.recipes
   %h1 new
-  = form_for(:web_recipe, url: "/web_recipes", method: 'post') do |form|
-    = form.label(:url, "URL")
+  = form_for(:web_recipe, url: "/recipes", method: 'post') do |form|
+    = form.label(:recipe_url, "URL")
     = form.text_field(:url)
     = form.submit("create")

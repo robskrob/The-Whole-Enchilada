@@ -17,14 +17,16 @@ class WebRecipesController < ApplicationController
 
     html_response_string = Net::HTTP.get_response(uri)
 
-    recipe_text = HtmlPageParser.new(html_response_string).inner_text
+    page_parser = HtmlPageParser.new(html_response_string)
 
-    WebRecipe.create({
-      content: recipe_text,
-      host_origin: uri.host,
-      name: uri.path + uri.host,
-      pathname: uri.path
-    })
+    recipe_text = page_parser.inner_text
+
+    # WebRecipe.create({
+    #   content: recipe_text,
+    #   host_origin: uri.host,
+    #   name: uri.path + uri.host,
+    #   pathname: uri.path
+    # })
 
 
 

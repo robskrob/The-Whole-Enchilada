@@ -1,32 +1,86 @@
+require 'open-uri'
+
 class RecipesController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate_user!, :except => [:index, :show, :edit, :update]
 
   def create
-    @recipe = Recipe.new(
-      description: params[:recipe][:description],
-      title: params[:recipe][:title],
-      user_id: current_user.id
+    # @recipe = Recipe.new(
+    #   description: params[:recipe][:description],
+    #   title: params[:recipe][:title],
+    #   user_id: current_user.id
+    # )
+
+    # @recipe.save
+
+    # if params[:recipe][:images].present? && params[:recipe][:images][:file].present?
+    #   image = @recipe.images.create
+    #   file = params[:recipe][:images][:file]
+
+    #   image.file.attach(
+    #     io: File.open(file.path),
+    #     filename: file.original_filename,
+    #     content_type: file.content_type
+    #   )
+    # end
+
+    # redirect_to @recipe
+
+    uri = URI(params[:web_recipe][:url])
+
+    html_response_body_string = Net::HTTP.get_response(uri).body
+
+
+    parser = HtmlPageParser.new(
+      html_response_body_string,
+      Nokogiri::HTML(html_response_body_string)
     )
 
-    @recipe.save
 
-    if params[:recipe][:images].present? && params[:recipe][:images][:file].present?
-      image = @recipe.images.create
-      file = params[:recipe][:images][:file]
+    name = uri.path + uri.host
 
-      image.file.attach(
-        io: File.open(file.path),
-        filename: file.original_filename,
-        content_type: file.content_type
+    web_recipe = WebRecipe.find_by_name(name)
+
+    @image_sources = parser.query_image_sources
+
+    if web_recipe
+      redirect_to edit_recipe_path(web_recipe.recipe, web_recipe_url: params[:web_recipe][:url])
+    else
+
+      new_web_recipe = WebRecipe.create({
+        content: parser.inner_text,
+        host_origin: uri.host,
+        name: name,
+        pathname: uri.path
+      })
+
+      @recipe = Recipe.create(
+        title: new_web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
+        web_recipe_id: new_web_recipe.id,
+        full_text: new_web_recipe.content,
+        user_id: current_user.id
       )
+
+      redirect_to edit_recipe_path(@recipe, web_recipe_url: params[:web_recipe][:url])
     end
 
-    redirect_to @recipe
+
   end
 
   def edit
+    if params[:web_recipe_url]
+      uri = URI(params[:web_recipe_url])
+      html_response_body_string = Net::HTTP.get_response(uri).body
+
+      parser = HtmlPageParser.new(
+        html_response_body_string,
+        Nokogiri::HTML(html_response_body_string)
+      )
+
+      @image_sources = parser.query_image_sources
+    end
+
     @recipe = Recipe.find(params[:id])
     @text = []
   end

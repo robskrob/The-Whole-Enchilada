@@ -1,16 +1,15 @@
-%main.RecipeView.js-RecipeEditor
+%main.RecipeView.js-RecipeEditor{'data-recipe-id': @recipe.id}
   %h1 editing recipe
   %h2= link_to('View Recipe', recipe_path(@recipe.id))
 
-  - ingredients = @recipe.ingredients
-  - steps = @recipe.steps
-  - tools = @recipe.tools
 
-  - step_options = steps.map do |step|
-    - number = step.position + 1
-    - [number.ordinalize, step.id]
+  .RecipeView__web-images.flex.flex-row.flex-wrap{'data-web-images': ''}
+    - (@image_sources || []).each_with_index do |image_source, index|
+      = image_tag url_for(image_source), alt: "#{@recipe.title} - #{index}", class: 'RecipeView__web-image w-2/4'
+  %button
+    = link_to 'Save Images', '#', {'data-save-web-image': ''}
 
-  = form_with(model: @recipe, method: "patch", class: 'RecipeView__form') do |form|
+  = form_with(model: @recipe, method: "patch", class: 'RecipeView__form ') do |form|
     = form.label(:title, "Title")
     = form.text_field(:title)
     = form.fields_for :images do |image_builder|
