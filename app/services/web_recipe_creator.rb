@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WebRecipeCreator
   def initialize(name, attrs = {})
     @name = name

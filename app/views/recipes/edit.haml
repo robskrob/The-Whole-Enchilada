@@ -3,11 +3,12 @@
   %h2= link_to('View Recipe', recipe_path(@recipe.id))
 
 
-  .RecipeView__web-images.flex.flex-row.flex-wrap{'data-web-images': ''}
-    - (@image_sources || []).each_with_index do |image_source, index|
-      = image_tag url_for(image_source), alt: "#{@recipe.title} - #{index}", class: 'RecipeView__web-image w-2/4'
-  %button
-    = link_to 'Save Images', '#', {'data-save-web-image': ''}
+  - if @image_sources.present?
+    .RecipeView__web-images.flex.flex-row.flex-wrap{'data-web-images': ''}
+      - @image_sources.each_with_index do |image_source, index|
+        = image_tag url_for(image_source), alt: "#{@recipe.title} - #{index}", class: 'RecipeView__web-image w-2/4'
+    %button
+      = link_to 'Save Images', '#', {'data-save-web-image': ''}
 
   = form_with(model: @recipe, method: "patch", class: 'RecipeView__form ') do |form|
     = form.label(:title, "Title")

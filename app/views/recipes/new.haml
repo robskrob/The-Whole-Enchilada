@@ -1,6 +1,7 @@
 %main.recipes
-  %h1 new
-  = form_for(:web_recipe, url: "/recipes", method: 'post') do |form|
-    = form.label(:recipe_url, "URL")
-    = form.text_field(:url)
-    = form.submit("create")
+  .container-center.w-full.m-auto
+    %h1 Enter A Url
+    = form_for(:web_recipe, url: "/recipes", method: 'post', html: {class: 'w-full'} ) do |form|
+      = form.label(:recipe_url, "URL")
+      = form.text_field(:url, class: 'w-full', required: true)
+      = form.submit("create")
