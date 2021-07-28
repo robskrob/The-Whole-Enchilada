@@ -6,29 +6,11 @@ class RecipesController < ApplicationController
   before_action :authenticate_user!, :except => [:index, :show, :edit, :update]
 
   def create
-    # @recipe = Recipe.new(
-    #   description: params[:recipe][:description],
-    #   title: params[:recipe][:title],
-    #   user_id: current_user.id
-    # )
 
-    # @recipe.save
+    url_validator = UrlValidator.new(params[:web_recipe][:url])
 
-    # if params[:recipe][:images].present? && params[:recipe][:images][:file].present?
-    #   image = @recipe.images.create
-    #   file = params[:recipe][:images][:file]
-
-    #   image.file.attach(
-    #     io: File.open(file.path),
-    #     filename: file.original_filename,
-    #     content_type: file.content_type
-    #   )
-    # end
-
-    # redirect_to @recipe
-
-    uri = URI.parse(params[:web_recipe][:url])
-    if uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+    if url_validator.valid?
+      uri = url_validator.value
 
       html_response_body_string = Net::HTTP.get_response(uri).body
 
