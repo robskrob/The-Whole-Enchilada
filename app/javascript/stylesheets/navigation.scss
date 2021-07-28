@@ -1,0 +1,15 @@
+.Navigation {
+
+  &__item:first-of-type {
+    margin-right: auto;
+  }
+
+  &__item {
+    padding-right: 2rem;
+  }
+
+  &__section {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
