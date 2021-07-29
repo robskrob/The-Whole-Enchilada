@@ -2,11 +2,15 @@ class Api::V1::Recipes::ImagesController < ApplicationController
   protect_from_forgery with: :exception, except: [:create], prepend: true
 
   def create
+    image_json_array = []
+
     if params[:imageDataArray].kind_of?(Array)
-      RecipeImagesImporterWorker.perform_async(JSON.parse(params[:imageDataArray].to_json), params[:recipe_id])
+      image_json_array = JSON.parse(params[:imageDataArray].to_json)
     else
-      RecipeImagesImporterWorker.perform_async(JSON.parse(params[:imageDataArray]), params[:recipe_id])
+      image_json_array = JSON.parse(params[:imageDataArray])
     end
+
+    RecipeImagesImporterWorker.perform_async(image_json_array, params[:recipe_id])
 
     render json: {message: 'currently importing', success: true}
   end

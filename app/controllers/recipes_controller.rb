@@ -40,7 +40,7 @@ class RecipesController < ApplicationController
         @recipe = Recipe.create(
           title: new_web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
           web_recipe_id: new_web_recipe.id,
-          full_text: new_web_recipe.content,
+          full_text: new_web_recipe.content.gsub(/(\R)(?:\s*\R)+/, '\1'),
           user_id: current_user.id
         )
 

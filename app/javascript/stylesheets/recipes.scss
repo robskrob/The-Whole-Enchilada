@@ -10,6 +10,12 @@
     border: solid 2px yellow;
   }
 
+  .actions {
+    button {
+      margin-right: 2rem;
+    }
+  }
+
   textarea {
     min-height: 300px;
   }

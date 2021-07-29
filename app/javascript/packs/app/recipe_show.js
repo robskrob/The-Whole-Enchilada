@@ -8,7 +8,7 @@ document.addEventListener("turbolinks:load", (_event) => {
   if (document.querySelector(".js-RecipeShow")) {
     Array.from(document.querySelectorAll('.js-rotate-left-btn')).forEach((buttonElement) => {
       buttonElement.addEventListener('click', (event) => {
-        let img = event.currentTarget.parentElement.querySelector('img')
+        let img = event.currentTarget.parentElement.nextElementSibling
         let rotator = new ImageRotator(img, 'left')
         rotator.calculate()
       })
@@ -16,7 +16,7 @@ document.addEventListener("turbolinks:load", (_event) => {
 
     Array.from(document.querySelectorAll('.js-rotate-right-btn')).forEach((buttonElement) => {
       buttonElement.addEventListener('click', (event) => {
-        let img = event.currentTarget.parentElement.querySelector('img')
+        let img = event.currentTarget.parentElement.nextElementSibling
         let rotator = new ImageRotator(img, 'right')
         rotator.calculate()
       })
@@ -24,7 +24,7 @@ document.addEventListener("turbolinks:load", (_event) => {
 
     Array.from(document.querySelectorAll('.js-shrink')).forEach((buttonElement) => {
       buttonElement.addEventListener('click', (event) => {
-        let img = event.currentTarget.parentElement.querySelector('img')
+        let img = event.currentTarget.parentElement.nextElementSibling
 
         let shrinker = new ImageShrinker(img)
         shrinker.calculate()
@@ -33,7 +33,7 @@ document.addEventListener("turbolinks:load", (_event) => {
 
     Array.from(document.querySelectorAll('.js-grow')).forEach((buttonElement) => {
       buttonElement.addEventListener('click', (event) => {
-        let img = event.currentTarget.parentElement.querySelector('img')
+        let img = event.currentTarget.parentElement.nextElementSibling
 
         let grower = new ImageGrower(img)
         grower.calculate()
