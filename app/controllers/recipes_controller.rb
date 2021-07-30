@@ -1,33 +1,79 @@
+require 'open-uri'
+
 class RecipesController < ApplicationController
   include Pagy::Backend
 
-  before_action :authenticate_user!, :except => [:index, :show, :edit, :update]
+  before_action :authenticate_user!, :except => [:index, :show]
 
   def create
-    @recipe = Recipe.new(
-      description: params[:recipe][:description],
-      title: params[:recipe][:title],
-      user_id: current_user.id
-    )
 
-    @recipe.save
+    url_validator = UrlValidator.new(params[:web_recipe][:url])
 
-    if params[:recipe][:images].present? && params[:recipe][:images][:file].present?
-      image = @recipe.images.create
-      file = params[:recipe][:images][:file]
+    if url_validator.valid?
+      uri = url_validator.value
 
-      image.file.attach(
-        io: File.open(file.path),
-        filename: file.original_filename,
-        content_type: file.content_type
+      html_response_body_string = Net::HTTP.get_response(uri).body
+
+      parser = HtmlPageParser.new(
+        html_response_body_string,
+        Nokogiri::HTML(html_response_body_string)
       )
-    end
 
-    redirect_to @recipe
+
+      name = uri.path + uri.host
+
+      web_recipe = WebRecipe.find_by_name(name)
+
+      @image_sources = parser.query_image_sources
+
+      if web_recipe
+        redirect_to edit_recipe_path(web_recipe.recipe, web_recipe_url: params[:web_recipe][:url])
+      else
+
+        new_web_recipe = WebRecipe.create({
+          content: parser.inner_text,
+          host_origin: uri.host,
+          name: name,
+          pathname: uri.path
+        })
+
+        @recipe = Recipe.create(
+          title: new_web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
+          web_recipe_id: new_web_recipe.id,
+          full_text: new_web_recipe.content.gsub(/(\R)(?:\s*\R)+/, '\1'),
+          user_id: current_user.id
+        )
+
+        redirect_to edit_recipe_path(@recipe, web_recipe_url: params[:web_recipe][:url])
+      end
+    else
+      redirect_to new_recipe_path, flash: { error: 'Invalid URL' }
+    end
   end
 
   def edit
     @recipe = Recipe.find(params[:id])
+
+    url_validator = [
+      UrlValidator.new(params[:web_recipe_url]),
+      UrlValidator.new(
+        "https://#{@recipe.web_recipe.host_origin}#{@recipe.web_recipe.pathname}"
+      )
+    ].find(&:valid?)
+
+
+
+    if url_validator
+      html_response_body_string = Net::HTTP.get_response(url_validator.value).body
+
+      parser = HtmlPageParser.new(
+        html_response_body_string,
+        Nokogiri::HTML(html_response_body_string)
+      )
+
+      @image_sources = parser.query_image_sources
+    end
+
     @text = []
   end
 
@@ -55,7 +101,7 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @recipe = Recipe.new
+    @recipe = WebRecipe.new
   end
 
   def show
@@ -80,4 +126,5 @@ class RecipesController < ApplicationController
 
     redirect_to edit_recipe_path(recipe.id)
   end
+
 end

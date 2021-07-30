@@ -5,10 +5,11 @@
     %title TheWholeEnchilada
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_pack_tag "application", "data-turbo-track": "reload"
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
+    .modal.flex.hidden{ 'data-spinner-modal': ''}
+      = image_pack_tag 'media/images/spinner.svg', class: 'spinner'
     %div.flash-messages
       = flash[:notice]
       = flash[:error]
@@ -20,3 +21,6 @@
       = render partial: 'layouts/reset_password_callback', locals: {reset_password_token: params[:reset_password_token], user: user}
     - if params[:confirmation_token]
       = render 'layouts/confirmation_callback'
+
+    
+
