@@ -4,9 +4,6 @@
   - if @recipe.web_recipe.present?
     = link_to("Visit Original recipe", @recipe.web_recipe.full_path, target: '_blank')
   = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
-  .RecipeView__full-text-container
-    = @recipe.full_text
-
 
   .RecipeView__images-container
     - @recipe.images.with_attached_file.each do |image|
@@ -30,3 +27,7 @@
 
         - if image.featured.blank?
           = link_to 'Make Featured', "/recipes/#{@recipe.id}/images/#{image.id}/featured", method: :patch 
+
+  .RecipeView__full-text-container
+    = @recipe.full_text
+

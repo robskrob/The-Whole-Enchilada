@@ -3,7 +3,7 @@ require 'open-uri'
 class RecipesController < ApplicationController
   include Pagy::Backend
 
-  before_action :authenticate_user!, :except => [:index, :show, :edit, :update]
+  before_action :authenticate_user!, :except => [:index, :show]
 
   def create
 
@@ -49,8 +49,6 @@ class RecipesController < ApplicationController
     else
       redirect_to new_recipe_path, flash: { error: 'Invalid URL' }
     end
-
-
   end
 
   def edit
