@@ -17,8 +17,6 @@ Rails.application.routes.draw do
     resources :confirmations, only: [:create, :new]
   end
 
-  resources :web_recipes, only: [:create]
-
   resources :recipes, only: [:create, :destroy, :edit, :index, :new, :show, :update] do
     scope module: :recipes do
       resources :images, only: [:update, :destroy]
