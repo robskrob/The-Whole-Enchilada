@@ -4,13 +4,14 @@
       %ul.flex.flex-wrap
         - @recipes.each_with_index do |recipe, index|
           %li.p-4.text-lg
-            .card
-              - featured = recipe.images.find { |img| img.featured }
-              - if featured
-                .featured-img
-                  = image_tag url_for(featured.file)
-              .title
-                = link_to(recipe.title, recipe_path(recipe.id))
+            = link_to(recipe_path(recipe.id)) do
+              .card
+                - featured = recipe.images.find { |img| img.featured }
+                - if featured
+                  .featured-img
+                    = image_tag url_for(featured.file)
+                .title
+                  = recipe.title
 
 
       - if @pagy.present?
