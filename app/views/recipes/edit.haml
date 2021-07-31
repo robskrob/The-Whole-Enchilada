@@ -23,9 +23,6 @@
   %button
     = link_to 'Delete Recipe', recipe_path(@recipe), data: {confirm: 'Are you sure?'}, method: :delete 
 
-  .RecipeView__full-text-container
-    = @recipe.full_text
-
 
   .RecipeView__images-container
     - @recipe.images.with_attached_file.each do |image|
