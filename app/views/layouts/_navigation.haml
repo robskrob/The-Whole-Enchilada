@@ -1,14 +1,18 @@
 .Navigation__section.p-8
   .Navigation__item
     %h2= link_to('Home', root_path)
-  - if current_user
+  .Navigation__item.mr-auto
+    %h2= link_to('Recipes', recipes_path)
+  - if current_user.present?
     .Navigation__item
       %h2= link_to('Account', account_path)
+    .Navigation__item
+      %h2= link_to("Create", new_recipe_path)
     .Navigation__item
       = button_to('Log Out', session_path(current_user.id), method: :delete, class: 'Account__tab')
   - else
     .Navigation__item
       %h2= link_to('Account', new_session_path)
-  .Navigation__item
-    %h2= link_to('Recipes', recipes_path)
+    .Navigation__item
+      %h2= link_to("Create", new_session_path)
 

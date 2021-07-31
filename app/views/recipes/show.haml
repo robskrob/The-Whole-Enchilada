@@ -3,7 +3,8 @@
   %h2= @recipe.title
   - if @recipe.web_recipe.present?
     = link_to("Visit Original recipe", @recipe.web_recipe.full_path, target: '_blank')
-  = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
+  - if current_user.present? && current_user.id == @recipe.user_id
+    = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
 
   .RecipeView__images-container
     - @recipe.images.with_attached_file.each do |image|
@@ -18,14 +19,10 @@
           %button.js-grow
             Grow
         = image_tag url_for(image.file)
-        - if image.text_processed
-          .RecipeView__image-status
-            Image Has Been Parsed
-        - else
-          = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
-        = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
+        - if current_user.id == @recipe.user_id
+          = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
 
-        - if image.featured.blank?
+        - if image.featured.blank? && current_user.id == @recipe.user_id 
           = link_to 'Make Featured', "/recipes/#{@recipe.id}/images/#{image.id}/featured", method: :patch 
 
   .RecipeView__full-text-container

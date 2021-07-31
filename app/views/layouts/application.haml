@@ -11,9 +11,14 @@
     .modal.flex.hidden{ 'data-spinner-modal': ''}
       = image_pack_tag 'svgs/spinner.svg', class: 'spinner'
     %div.flash-messages
-      = flash[:notice]
-      = flash[:error]
-      = flash[:alert]
+      .text-green-700
+        = flash[:success]
+      .text-indigo-700
+        = flash[:notice]
+      .text-red-700
+        = flash[:error]
+      .text-yellow-700
+        = flash[:alert]
     = render 'layouts/navigation'
     = yield
     - if params[:reset_password_token]

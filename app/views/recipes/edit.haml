@@ -34,11 +34,6 @@
     - @recipe.images.with_attached_file.each do |image|
       .RecipeView__image-container
         = image_tag url_for(image.file)
-        - if image.text_processed
-          .RecipeView__image-status
-            Image Has Been Parsed
-        - else
-          = link_to 'Parse Text', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :patch 
         = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
         - if image.featured.blank?
           = link_to 'Make Featured', "/recipes/#{@recipe.id}/images/#{image.id}/featured", method: :patch 
