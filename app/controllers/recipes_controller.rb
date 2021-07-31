@@ -27,7 +27,7 @@ class RecipesController < ApplicationController
       @image_sources = parser.query_image_sources
 
       if web_recipe
-        redirect_to edit_recipe_path(web_recipe.recipe, web_recipe_url: params[:web_recipe][:url])
+        redirect_to recipe_path(web_recipe.recipe, web_recipe_url: params[:web_recipe][:url])
       else
 
         new_web_recipe = WebRecipe.create({
@@ -83,8 +83,9 @@ class RecipesController < ApplicationController
   end
 
   def destroy
+    @recipe = Recipe.find(params[:id])
+
     if current_user.id == @recipe.user_id
-      @recipe = Recipe.find(params[:id])
       @recipe.destroy
 
       redirect_to recipes_path
@@ -136,7 +137,7 @@ class RecipesController < ApplicationController
 
       updated_recipe = recipe_updater.coordinate
 
-      redirect_to edit_recipe_path(updated_recipe.id)
+      redirect_to recipe_path(updated_recipe.id)
     else
       flash[:error] = 'You do not have permissions to update this recipe'
       redirect_to recipes_path

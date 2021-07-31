@@ -13,9 +13,6 @@
   = form_with(model: @recipe, method: "patch", class: 'RecipeView__form ') do |form|
     = form.label(:title, "Title")
     = form.text_field(:title)
-    = form.fields_for :images do |image_builder|
-      = form.label(:text_processed, "Only PNG and Jpeg are acceptable")
-      = image_builder.file_field :file, accept: 'image/png,image/jpeg'
     = form.label(:full_text, "Full Text")
     = form.text_area(:full_text)
     = form.label(:date_published, "Date Published")

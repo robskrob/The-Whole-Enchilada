@@ -26,12 +26,14 @@ document.addEventListener('turbolinks:load', (_event) => {
         const spinnerModal = document.querySelector('[data-spinner-modal]')
         spinnerModal.classList.remove('hidden')
         postJson(`/api/v1/recipes/${editRecipePage.dataset.recipeId}/images`, {imageDataArray: imageData}, (response) => {
+          spinnerModal.classList.add('hidden')
+
           imageElements.forEach((imageElement) => {
             imageElement.classList.add('saved')
             imageElement.classList.remove('selected')
           })
 
-          spinnerModal.classList.add('hidden')
+          window.location.href = `/recipes/${editRecipePage.dataset.recipeId}`
         })
       }
     })
