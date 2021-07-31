@@ -12,7 +12,7 @@ class Api::V1::WebRecipesController < ApplicationController
       recipe = Recipe.create(
         title: web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
         web_recipe_id: web_recipe.id,
-        full_text: web_recipe.content,
+        full_text: web_recipe.content.gsub(/(\R)(?:\s*\R)+/, '\1'),
         user_id: rob_id(User.find_by_email('jewell.robertp@gmail.com'))
       )
 
