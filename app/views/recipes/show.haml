@@ -18,7 +18,8 @@
             Shrink
           %button.js-grow
             Grow
-        = image_tag url_for(image.file)
+        - if image.file.present? && image.file.attached?
+          = image_tag url_for(image.file)
         - if current_user.id == @recipe.user_id
           = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
 
