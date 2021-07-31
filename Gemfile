@@ -17,7 +17,8 @@ gem 'sidekiq', '6.0.6'
 gem 'dotenv-rails', '2.7.5'
 gem 'devise', '4.7.1'
 gem 'letter_opener', '1.7.0'
-gem 'aws-ses', '0.7.1'
+gem "aws-ses-v4", require: "aws/ses"
+
 gem 'searchkick', '4.4.2'
 gem 'pagy', '3.12.0'
 
