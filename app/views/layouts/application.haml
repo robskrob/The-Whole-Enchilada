@@ -10,7 +10,7 @@
   %body
     .modal.flex.hidden{ 'data-spinner-modal': ''}
       = image_pack_tag 'svgs/spinner.svg', class: 'spinner'
-    %div.flash-messages
+    %h2.flash-messages
       .text-green-700
         = flash[:success]
       .text-indigo-700
@@ -22,7 +22,7 @@
     = render 'layouts/navigation'
     = yield
     - if params[:reset_password_token]
-      - user = User.find_and_assign_by_reset_password(params[:reset_password_token]) 
+      - user = User.find_and_assign_by_reset_password(params[:reset_password_token]) || NullUser.new
       = render partial: 'layouts/reset_password_callback', locals: {reset_password_token: params[:reset_password_token], user: user}
     - if params[:confirmation_token]
       = render 'layouts/confirmation_callback'

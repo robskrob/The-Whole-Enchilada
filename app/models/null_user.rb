@@ -7,4 +7,8 @@ class NullUser
   def present?
     false
   end
+
+  def valid_reset_password_link?
+    false
+  end
 end
