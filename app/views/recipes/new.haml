@@ -1,7 +1,7 @@
 %main.recipes
   .container-center.w-full.m-auto
     %h1 Enter A Url
-    = form_for(:web_recipe, url: "/recipes", method: 'post', html: {class: 'w-full'} ) do |form|
-      = form.label(:recipe_url, "URL")
-      = form.text_field(:url, class: 'w-full', required: true)
-      = form.submit("create")
+    = form_for(:web_recipe, url: "/recipes", method: 'post', html: {class: 'w-full flex flex-col'} ) do |form|
+      = form.label(:url, "URL")
+      = form.text_field(:url, class: 'w-full border-solid	border-gray-500 border p-4', required: true)
+      = form.submit("create", class: 'p-4 m-auto my-4')
