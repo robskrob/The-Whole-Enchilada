@@ -54,7 +54,7 @@ class RecipesController < ApplicationController
   def edit
     @recipe = Recipe.find(params[:id])
 
-    if current_user.id == @recipe.user_id
+    if current_user.id == @recipe.user_id && @recipe.web_recipe.present?
 
       url_validator = [
         UrlValidator.new(params[:web_recipe_url]),
