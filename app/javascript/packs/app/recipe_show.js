@@ -9,21 +9,22 @@ document.addEventListener('turbolinks:load', (_event) => {
   if (showRecipePage) {
     let recipeId = document.querySelector('[data-recipe-id]').dataset.recipeId
     consumer.subscriptions.create({ channel: 'RecipesChannel', id: recipeId }, {
-      connected () {
-        let image = window.localStorage.getItem('savedImage')
-
-        if (image) {
-          console.log('retrievedObject: ', JSON.parse(image))
-          this.appendImage(JSON.parse(image))
-          window.localStorage.setItem('savedImage', JSON.stringify(data))
-          window.localStorage.removeItem('savedImage')
-        }
-      },
-
       received (data) {
-        console.log('data', data)
-        let image = window.localStorage.getItem('savedImage')
-        this.appendImage(data)
+
+        if (typeof data === 'string') {
+          let image = JSON.parse(data)
+          let imageElement = document.querySelector(`img[alt='${image.alt_text.trim()}']`)
+
+          if (!imageElement) {
+            this.appendImage(image)
+          }
+        } else {
+          let imageElement = document.querySelector(`img[alt='${data.alt_text.trim()}']`)
+
+          if (!imageElement) {
+            this.appendImage(data)
+          }
+        }
       },
 
       appendImage (data) {
