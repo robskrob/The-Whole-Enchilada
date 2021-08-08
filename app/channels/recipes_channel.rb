@@ -6,5 +6,10 @@ class RecipesChannel < ApplicationCable::Channel
   end
 
   def receive(data)
+
+  end
+
+  def appear(data)
+    RecipesChannel.broadcast_to(image.attachable, data)
   end
 end

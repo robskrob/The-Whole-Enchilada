@@ -1,8 +1,21 @@
 import { postJson} from './ajax.js'
+import consumer from '../../channels/consumer'
 
 document.addEventListener('turbolinks:load', (_event) => {
   const editRecipePage = document.querySelector('.js-RecipeEditor')
+
   if (editRecipePage) {
+    consumer.subscriptions.create({ channel: 'RecipesChannel', id: editRecipePage.dataset.recipeId }, {
+      received (data) {
+        console.log('data edit', data)
+        this.saveToLocalStorage(data)
+      },
+
+      saveToLocalStorage (data) {
+        window.localStorage.setItem('savedImage', JSON.stringify(data))
+      }
+    })
+
     Array.from(document.querySelectorAll('[data-web-images] > img')).forEach((imageElement) => {
       imageElement.addEventListener('click', (event) => {
         const image = event.currentTarget
