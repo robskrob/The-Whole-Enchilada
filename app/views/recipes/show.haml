@@ -20,8 +20,6 @@
             Grow
         - if image.file.present? && image.file.attached?
           = image_tag url_for(image.file), alt: image.alt_text, data: {'image-id' => image.id}
-        - else
-          %h3 Image still processing...wait a few seconds and then refreshi this page
         - if current_user.id == @recipe.user_id
           = link_to 'Delete Image', recipe_image_path(@recipe, image), data: {confirm: 'Are you sure?'}, method: :delete 
 
