@@ -7,7 +7,7 @@
     = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
 
   .RecipeView__images-container{'data-images-container': ''}
-    - @recipe.images.with_attached_file.each do |image|
+    - @recipe.images.order(featured: :desc).with_attached_file.each do |image|
       .RecipeView__image-container.js-RecipeShow__image
         .actions.flex
           %button.js-rotate-left-btn
