@@ -2,7 +2,9 @@ import { postJson} from './ajax.js'
 
 document.addEventListener('turbolinks:load', (_event) => {
   const editRecipePage = document.querySelector('.js-RecipeEditor')
+
   if (editRecipePage) {
+
     Array.from(document.querySelectorAll('[data-web-images] > img')).forEach((imageElement) => {
       imageElement.addEventListener('click', (event) => {
         const image = event.currentTarget

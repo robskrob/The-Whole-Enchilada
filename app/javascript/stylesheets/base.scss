@@ -45,3 +45,12 @@ img {
   height: auto;
   display: block;
 }
+
+.content {
+  height: 100vh;
+  background-color: white;
+  background-blend-mode: multiply;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+}

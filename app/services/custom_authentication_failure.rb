@@ -13,6 +13,9 @@ class CustomAuthenticationFailure < Devise::FailureApp
     elsif not_found
       flash[:alert] = "Invalid Email or password."
       redirect_to new_session_path
+    else
+      flash[:alert] = "Sign in or create an account"
+      redirect_to new_session_path
     end
   end
 end

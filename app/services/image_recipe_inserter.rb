@@ -20,20 +20,12 @@ class ImageRecipeInserter
   private
 
   def create_image
-    if recipe.images.present?
-      Image.create(
-        alt_text: valid_alt_text_length,
-        attachable_id: recipe.id,
-        attachable_type: 'Recipe'
-      )
-    else
-      Image.create(
-        alt_text: valid_alt_text_length,
-        attachable_id: recipe.id,
-        attachable_type: 'Recipe',
-        featured: true
-      )
-    end
+    Image.create(
+      alt_text: valid_alt_text_length,
+      attachable_id: recipe.id,
+      attachable_type: 'Recipe',
+      featured: recipe.images.blank?
+    )
   end
 
   def valid_alt_text_length

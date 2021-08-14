@@ -1,4 +1,4 @@
-%main.RecipeView.text-lg.js-RecipeShow
+%main.RecipeView.text-lg.js-RecipeShow{'data-recipe-id': @recipe.id}
   .RecipeView__header
   %h2= @recipe.title
   - if @recipe.web_recipe.present?
@@ -6,8 +6,8 @@
   - if current_user.present? && current_user.id == @recipe.user_id
     = link_to("Edit Recipe", edit_recipe_path(@recipe.id), class: 'button')
 
-  .RecipeView__images-container
-    - @recipe.images.with_attached_file.each do |image|
+  .RecipeView__images-container{'data-images-container': ''}
+    - @recipe.images.order(featured: :desc).with_attached_file.each do |image|
       .RecipeView__image-container.js-RecipeShow__image
         .actions.flex
           %button.js-rotate-left-btn
@@ -19,7 +19,7 @@
           %button.js-grow
             Grow
         - if image.file.present? && image.file.attached?
-          = image_tag url_for(image.file)
+          = image_tag url_for(image.file), alt: image.alt_text, data: {'image-id' => image.id}
         - else
           %h3 Image still processing...wait a few seconds and then refreshi this page
         - if current_user.id == @recipe.user_id
