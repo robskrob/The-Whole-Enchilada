@@ -1,6 +1,6 @@
 class RecipesChannel < ApplicationCable::Channel
   def subscribed
-    recipe = Recipe.includes(:images).find(params[:id])
+    recipe = Recipe.with_attached_images.find(params[:id])
 
     stream_for recipe
     recipe.images.each do |image|

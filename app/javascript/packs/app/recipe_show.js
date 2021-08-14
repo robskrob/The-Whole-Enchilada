@@ -10,16 +10,15 @@ document.addEventListener('turbolinks:load', (_event) => {
     let recipeId = document.querySelector('[data-recipe-id]').dataset.recipeId
     consumer.subscriptions.create({ channel: 'RecipesChannel', id: recipeId }, {
       received (data) {
-
         if (typeof data === 'string') {
           let image = JSON.parse(data)
-          let imageElement = document.querySelector(`img[alt='${image.alt_text.trim()}']`)
+          let imageElement = document.querySelector(`[data-image-id='${image.image_id}']`)
 
           if (!imageElement) {
             this.appendImage(image)
           }
         } else {
-          let imageElement = document.querySelector(`img[alt='${data.alt_text.trim()}']`)
+          let imageElement = document.querySelector(`[data-image-id='${data.image_id}']`)
 
           if (!imageElement) {
             this.appendImage(data)
@@ -31,6 +30,15 @@ document.addEventListener('turbolinks:load', (_event) => {
         const html = this.createImage(data)
         const element = document.querySelector('[data-images-container]')
         element.insertAdjacentHTML('beforeend', html)
+
+        let imageElement = document.querySelector(`[data-image-id='${data.image_id}']`)
+
+        imageElement.addEventListener('error', () => {
+          let h2 = document.createElement('h2')
+          h2.innerHTML = 'Refresh this page to see image'
+
+          imageElement.parentNode.replaceChild(h2, imageElement)
+        })
       },
 
       createImage (data) {
@@ -50,7 +58,7 @@ document.addEventListener('turbolinks:load', (_event) => {
             Grow
             </button>
           </div>
-          <img src=${data.url} alt=${data.alt_text}>
+          <img src=${data.url} alt=${data.alt_text} data-image-id=${data.image_id}>
           <a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/recipes/${data.recipe_id}/images/${data.image_id}">Delete Image</a>
           <a rel="nofollow" data-method="patch" href="/recipes/${data.recipe_id}/images/${data.image_id}/featured">Make Featured</a>
         </div>

@@ -11,17 +11,6 @@ class ImageRecipeInserter
   end
 
   def associate_and_insert
-    ActiveStorage::Attachment.after_create_commit do
-      image = Image.includes(:attachable).find(self.record_id)
-
-      RecipesChannel.broadcast_to(image.attachable, {
-        recipe_id: image.attachable_id,
-        image_id: image.id,
-        alt_text: image.alt_text,
-        url: self.service_url
-      })
-    end
-
     create_image.file.attach(
       io: File.open(tmp_path),
       filename: filename
