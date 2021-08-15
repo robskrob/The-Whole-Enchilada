@@ -22,6 +22,9 @@ gem "aws-ses-v4", require: "aws/ses"
 gem 'searchkick', '4.4.2'
 gem 'pagy', '3.12.0'
 
+gem 'rollbar', '3.2.0'
+
+
 group :production do
   gem 'aws-sdk-s3', '1.61.2'
 end
