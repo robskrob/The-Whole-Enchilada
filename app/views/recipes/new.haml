@@ -1,6 +1,6 @@
 %main.recipes
   .container-center.w-full.m-auto
-    %h1 Enter A Url
+    %h1 Paste recipe URL below and click create:
     = form_for(:web_recipe, url: "/recipes", method: 'post', html: {class: 'w-full flex flex-col'} ) do |form|
       = form.label(:url, "URL")
       = form.text_field(:url, class: 'w-full border-solid	border-gray-500 border p-4', required: true)
