@@ -10,7 +10,7 @@ class ImageDownloader
 
   def save_to_tmp_storage
     open(tmp_path, 'wb') do |tmp_file|
-      tmp_file << open(uri.to_s).read
+      tmp_file << open(clean_url).read
     end
   end
 
@@ -19,6 +19,10 @@ class ImageDownloader
   end
 
   private
+
+  def clean_url
+    "http://#{uri.host}#{uri.path}"
+  end
 
   def parse_uri(source)
     begin
