@@ -99,7 +99,7 @@ class RecipesController < ApplicationController
     @pagy, @recipes = pagy(
       Recipe.includes(:images).merge(
         Image.with_attached_file
-      ).all.order(created_at: :desc)
+      ).all.where(published_at: true).order(created_at: :desc)
     )
 
     if params[:search]
