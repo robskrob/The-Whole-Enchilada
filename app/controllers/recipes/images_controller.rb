@@ -13,7 +13,7 @@ module Recipes
       image = Image.find(params[:id])
       image.update(featured: true)
 
-      redirect_to edit_recipe_path(params[:recipe_id])
+      redirect_to recipe_path(params[:recipe_id])
     end
 
     def destroy

@@ -35,16 +35,24 @@ document.addEventListener('turbolinks:load', (_event) => {
 
         imageElement.addEventListener('error', () => {
           let h2 = document.createElement('h2')
+          let parent = imageElement.parentElement
+          let actionsElement = parent.querySelector('[data-image-actions]')
+          let deleteImageElement = parent.querySelector('[data-image-delete]')
+          let featureImageElement = parent.querySelector('[data-image-feature]')
+
           h2.innerHTML = 'Refresh this page to see image'
 
-          imageElement.parentNode.replaceChild(h2, imageElement)
+          parent.removeChild(actionsElement)
+          parent.removeChild(deleteImageElement)
+          parent.removeChild(featureImageElement)
+          parent.replaceChild(h2, imageElement)
         })
       },
 
       createImage (data) {
         return `
         <div class="RecipeView__image-container js-RecipeShow__image">
-          <div class="actions flex">
+          <div class="actions flex" data-image-actions=''>
             <button class="js-rotate-left-btn">
             Rotate Left
             </button>
@@ -59,8 +67,8 @@ document.addEventListener('turbolinks:load', (_event) => {
             </button>
           </div>
           <img src=${data.url} alt=${data.alt_text} data-image-id=${data.image_id}>
-          <a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/recipes/${data.recipe_id}/images/${data.image_id}">Delete Image</a>
-          <a rel="nofollow" data-method="patch" href="/recipes/${data.recipe_id}/images/${data.image_id}/featured">Make Featured</a>
+          <a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/recipes/${data.recipe_id}/images/${data.image_id}" data-image-delete>Delete Image</a>
+          <a rel="nofollow" data-method="patch" href="/recipes/${data.recipe_id}/images/${data.image_id}/featured" data-image-feature>Make Featured</a>
         </div>
       `
       }
