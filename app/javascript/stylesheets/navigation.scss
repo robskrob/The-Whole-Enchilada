@@ -3,7 +3,7 @@
 header {
   background: gray;
   text-align: center;
-  position: fixed;
+  position: sticky;
   z-index: 999;
   width: 100%;
 }
@@ -55,7 +55,7 @@ header {
   top: 7px;
 }
 
-nav {
+.nav-container {
   background: gray;
   position: absolute;
   text-align: left;
@@ -68,19 +68,19 @@ nav {
   transition: transform 400ms ease-in-out;
 }
 
-nav ul {
+.nav-container ul {
   margin: 0;
   padding: 0;
   list-style: none;
   background: gray;
 }
 
-nav li {
+.nav-container li {
   margin-bottom: 1em;
   margin-left: 1em;
 }
 
-nav a {
+.nav-container a {
   color: white;
   text-decoration: none;
   font-size: 1.2rem;
@@ -89,15 +89,15 @@ nav a {
   transition: opacity 150ms ease-in-out;
 }
 
-nav a:hover {
+.nav-container a:hover {
   color: #000;
 }
 
-.nav-toggle:checked ~ nav {
+.nav-toggle:checked ~ .nav-container {
   transform: scale(1,1);
 }
 
-.nav-toggle:checked ~ nav a {
+.nav-toggle:checked ~ .nav-container a {
   opacity: 1;
   transition: opacity 250ms ease-in-out 250ms;
 }
@@ -108,7 +108,6 @@ nav a:hover {
   }
 
   header {
-    position: sticky;
     display: grid;
     grid-template-columns: 1fr auto minmax(600px, 3fr) 1fr;
   }
@@ -117,7 +116,7 @@ nav a:hover {
     grid-column: 2 / 3;
   }
 
-  nav {
+  .nav-container {
     // all: unset; /* this causes issues with Edge, since it's unsupported */
 
     /* the following lines are not from my video, but add Edge support */
@@ -136,21 +135,21 @@ nav a:hover {
     align-items: center;
   }
 
-  nav ul {
+  .nav-container ul {
     display: flex;
   }
 
-  nav li {
+  .nav-container li {
     margin-left: 3em;
     margin-bottom: 0;
   }
 
-  nav a {
+  .nav-container a {
     opacity: 1;
     position: relative;
   }
 
-  nav a::before {
+  .nav-container a::before {
     content: '';
     display: block;
     height: 5px;
@@ -163,7 +162,7 @@ nav a:hover {
     transition: transform ease-in-out 250ms;
   }
 
-  nav a:hover::before {
+  .nav-container a:hover::before {
     transform: scale(1,1);
   }
 }
