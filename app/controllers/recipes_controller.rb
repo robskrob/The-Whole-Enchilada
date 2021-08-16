@@ -125,7 +125,7 @@ class RecipesController < ApplicationController
       recipe_updater = RecipeUpdater.new({
         recipe: recipe,
         recipe_attr: {
-          published_at: params[:recipe][:date_published],
+          published_at: true,
           description: params[:recipe][:description],
           full_text: params[:recipe][:full_text],
           title: params[:recipe][:title]
