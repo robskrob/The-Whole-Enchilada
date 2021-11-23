@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
 
   root to: 'pages#home'
+  get '/contact-us', to: 'pages#contact'
 
   get '/health-check', to: 'application#health'
   patch '/recipes/:recipe_id/images/:id/featured', to: 'recipes/images#featured'

@@ -9,5 +9,6 @@
       %li= link_to("Create", new_recipe_path)
       - if current_user.present?
         %li= button_to('Log Out', session_path(current_user.id), method: :delete, class: 'Account__tab')
+      %li= link_to("Contact Us", new_recipe_path)
   %label.nav-toggle-label{:for => "nav-toggle"}
     %span
