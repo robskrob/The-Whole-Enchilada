@@ -19,7 +19,12 @@ class HtmlPageParser
       if image_element.name == 'img'
         image_element.attr('src')
       else
-        image_element.attr('style').value[/url\(["']?([^"']*)["']?\)/, 1]
+        style = image_element.attr('style')
+        if style.is_a? String
+          style[/url\(["']?([^"']*)["']?\)/, 1]
+        else
+          style.value[/url\(["']?([^"']*)["']?\)/, 1]
+        end
       end
     end
   end
