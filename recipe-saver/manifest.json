@@ -4,9 +4,9 @@
     "16": "cooking-icon.png",
     "128": "cooking-icon.png"
   },
-  "name": "Recipe Saver",
-  "description": "Save recipes in the cloud", 
-  "version": "1.0.0",
+  "name": "The Whole Enchilada",
+  "description": "Save and organize recipes in the cloud", 
+  "version": "1.0.2",
   "action": {
     "default_title": "Recipe Saver",
     "default_popup": "popup.html"
