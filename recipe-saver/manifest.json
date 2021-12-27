@@ -6,7 +6,7 @@
   },
   "name": "Recipe Saver",
   "description": "Save recipes in the cloud", 
-  "version": "0.1.0",
+  "version": "1.0.0",
   "action": {
     "default_title": "Recipe Saver",
     "default_popup": "popup.html"
