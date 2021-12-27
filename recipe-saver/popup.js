@@ -117,6 +117,9 @@ function queryImages() {
   })
 }
 
+function redirectCallback() {
+  window.location.href = "https://thewholeenchilada.cc/account"
+}
 
 function postRecipeTextCallback() {
   const body = document.querySelector('body')
@@ -132,33 +135,63 @@ function postRecipeTextCallback() {
 
 function findOrCreateRecipe() {
 
-  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-    chrome.scripting.executeScript({
-      target: {tabId: tabs[0].id, allFrames: true},
-      func: postRecipeTextCallback
-    }, async (injectionResults) => {
+  chrome.tabs.query({active: true, currentWindow: true}, async (tabs) => {
+    const me = await fetch('http://c7cc156138f4.ngrok.io/api/v1/me', {
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
 
-      const response = await fetch('https://c7cc156138f4.ngrok.io/api/v1/web_recipes', {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(injectionResults[0].result)
-      });
+    const me_data = await me.json()
 
-      const data = await response.json()
-      console.log('RESPONSE', data)
+    if (me_data.email && me_data.id) {
+      chrome.scripting.executeScript({
+        target: {tabId: tabs[0].id, allFrames: true},
+        func: postRecipeTextCallback
+      }, async (injectionResults) => {
 
-      const getImagesButtonElement = document.querySelector('.WholeEnchiladaRecipes__get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-      const importButtonElement = document.querySelector('.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        const response = await fetch('https://c7cc156138f4.ngrok.io/api/v1/web_recipes', {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(injectionResults[0].result)
+        });
+
+        const data = await response.json()
+        console.log('RESPONSE', data)
+
+        const getImagesButtonElement = document.querySelector('.WholeEnchiladaRecipes__get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        const importButtonElement = document.querySelector('.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        const saveButtonElement = document.querySelector('.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+
+        importButtonElement.setAttribute('data-recipe-id', data.recipe.id);
+
+        saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        getImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+      })
+    } else {
+      const signInButtonElement = document.querySelector('.WholeEnchiladaRecipes__sign-in-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
       const saveButtonElement = document.querySelector('.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
 
-      importButtonElement.setAttribute('data-recipe-id', data.recipe.id);
+      signInButtonElement.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        chrome.scripting.executeScript({
+          target: {tabId: tabs[0].id, allFrames: true},
+          func: redirectCallback
+        })
+
+      });
 
       saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-      getImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-    })
+      signInButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+    }
+
   });
 }

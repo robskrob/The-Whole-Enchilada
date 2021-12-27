@@ -1,4 +1,6 @@
 class Api::V1::Recipes::ImagesController < ApplicationController
+  before_action :authenticate_user!
+
   protect_from_forgery with: :exception, except: [:create], prepend: true
 
   def create
