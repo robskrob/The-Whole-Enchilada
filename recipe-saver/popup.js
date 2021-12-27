@@ -69,6 +69,55 @@ function queryImages() {
 
         imagesSectionElement.insertAdjacentHTML('afterbegin', imageElementString);
       })
+
+      Array.from(document.querySelectorAll('img.image--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp')).forEach(function(imageElement) {
+        imageElement.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.currentTarget.classList.toggle('selected--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        });
+      });
+
+      let importImagesButtonElement = document
+        .querySelector('.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+
+      // show import image button
+      importImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+
+
+      importImagesButtonElement
+        .addEventListener('click', async (event) => {
+          event.preventDefault();
+          var recipeId = event.currentTarget.dataset.recipeId;
+
+          var imageDataArray = Array.from(document.querySelectorAll('.selected--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp')).map(function(selectedImageElement) {
+            return {
+              source: selectedImageElement.getAttribute('src'),
+              alt: selectedImageElement.getAttribute('alt')
+            };
+          })
+
+          if (imageDataArray.length) {
+
+            const response = await fetch("https://c7cc156138f4.ngrok.io/api/v1/recipes/" + recipeId + "/images", {
+              method: 'POST', // *GET, POST, PUT, DELETE, etc.
+              mode: 'cors', // no-cors, *cors, same-origin
+              cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+              // credentials: 'same-origin', // include, *same-origin, omit
+              headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              // redirect: 'follow', // manual, *follow, error
+              // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+              body: JSON.stringify({imageDataArray: imageDataArray}) // body data type must match "Content-Type" header
+            });
+
+            const imageData = await response.json()
+            console.log('RESPONSE FROM THE WHOLE ENCHILADA', imageData);
+            alert('Images saved!')
+
+          }
+        })
     })
   })
 }
@@ -101,7 +150,7 @@ function findOrCreateRecipe() {
     }, async (injectionResults) => {
 
       console.log(injectionResults)
-      const response = await fetch('https://32736e68a68c.ngrok.io/api/v1/web_recipes', {
+      const response = await fetch('https://c7cc156138f4.ngrok.io/api/v1/web_recipes', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
