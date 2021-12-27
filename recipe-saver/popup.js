@@ -97,7 +97,7 @@ function queryImages() {
 
           if (imageDataArray.length) {
 
-            const response = await fetch("https://c7cc156138f4.ngrok.io/api/v1/recipes/" + recipeId + "/images", {
+            const response = await fetch("https://thewholeenchilada.cc/api/v1/recipes/" + recipeId + "/images", {
               method: 'POST',
               mode: 'cors',
               cache: 'no-cache',
@@ -136,7 +136,7 @@ function postRecipeTextCallback() {
 function findOrCreateRecipe() {
 
   chrome.tabs.query({active: true, currentWindow: true}, async (tabs) => {
-    const me = await fetch('http://c7cc156138f4.ngrok.io/api/v1/me', {
+    const me = await fetch('https://thewholeenchilada.cc/api/v1/me', {
       mode: 'cors',
       cache: 'no-cache',
       headers: {
@@ -153,7 +153,7 @@ function findOrCreateRecipe() {
         func: postRecipeTextCallback
       }, async (injectionResults) => {
 
-        const response = await fetch('https://c7cc156138f4.ngrok.io/api/v1/web_recipes', {
+        const response = await fetch('https://thewholeenchilada.cc/api/v1/web_recipes', {
           method: 'POST',
           mode: 'cors',
           cache: 'no-cache',
