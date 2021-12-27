@@ -34,7 +34,6 @@ function queryImages() {
       target: {tabId: tabs[0].id, allFrames: true},
       func: getImages
     }, (injectionResults) => {
-      console.log(injectionResults)
 
       var imagesSectionElement = document.querySelector('.WholeEnchiladaRecipes_images-section--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
 
@@ -99,17 +98,13 @@ function queryImages() {
           if (imageDataArray.length) {
 
             const response = await fetch("https://c7cc156138f4.ngrok.io/api/v1/recipes/" + recipeId + "/images", {
-              method: 'POST', // *GET, POST, PUT, DELETE, etc.
-              mode: 'cors', // no-cors, *cors, same-origin
-              cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-              // credentials: 'same-origin', // include, *same-origin, omit
+              method: 'POST',
+              mode: 'cors',
+              cache: 'no-cache',
               headers: {
                 'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
               },
-              // redirect: 'follow', // manual, *follow, error
-              // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-              body: JSON.stringify({imageDataArray: imageDataArray}) // body data type must match "Content-Type" header
+              body: JSON.stringify({imageDataArray: imageDataArray})
             });
 
             const imageData = await response.json()
@@ -126,8 +121,6 @@ function queryImages() {
 function postRecipeTextCallback() {
   const body = document.querySelector('body')
 
-  // return body.innerText
-
   return {
     content: body.innerText,
     host_origin: window.location.host,
@@ -139,29 +132,20 @@ function postRecipeTextCallback() {
 
 function findOrCreateRecipe() {
 
-  console.log('here 111')
   chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-    console.log('here 222')
-    //    chrome.runtime.sendMessage({'localStorage' : localStorage});
-
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id, allFrames: true},
       func: postRecipeTextCallback
     }, async (injectionResults) => {
 
-      console.log(injectionResults)
       const response = await fetch('https://c7cc156138f4.ngrok.io/api/v1/web_recipes', {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        // credentials: 'same-origin', // include, *same-origin, omit
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        // redirect: 'follow', // manual, *follow, error
-        // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(injectionResults[0].result) // body data type must match "Content-Type" header
+        body: JSON.stringify(injectionResults[0].result)
       });
 
       const data = await response.json()
@@ -175,15 +159,6 @@ function findOrCreateRecipe() {
 
       saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
       getImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-
-
-
     })
   });
-
 }
-
-
-// document.addEventListener("DOMContentLoaded", function(event) {
-//   document.querySelector('#save-recipe--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaU').addEventListener('click', findOrCreateRecipe);
-// });
