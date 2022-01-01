@@ -1,4 +1,6 @@
 class Api::V1::WebRecipesController < ApplicationController
+  before_action :authenticate_user!
+
   protect_from_forgery with: :exception, except: [:create], prepend: true
 
   def create
@@ -13,7 +15,7 @@ class Api::V1::WebRecipesController < ApplicationController
         title: web_recipe.pathname.parameterize.gsub(/-/, ' ').titleize,
         web_recipe_id: web_recipe.id,
         full_text: web_recipe.content.gsub(/(\R)(?:\s*\R)+/, '\1'),
-        user_id: rob_id(User.find_by_email('jewell.robertp@gmail.com'))
+        user_id: current_user.id
       )
 
       message = {message: "Recipe saved!", recipe: recipe, success: true}
@@ -23,14 +25,6 @@ class Api::V1::WebRecipesController < ApplicationController
   end
 
   private
-
-  # DELETE THIS once we have user authentication from chrome
-  # extension tool
-  def rob_id(user)
-    if user
-      user.id
-    end
-  end
 
   def web_recipe_params
     params.permit(:content, :host_origin, :name, :pathname)

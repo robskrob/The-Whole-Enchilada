@@ -1,43 +1,40 @@
-function findOrCreateRecipe() {
+document.querySelector('#save-recipe--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaU').addEventListener('click', findOrCreateRecipe);
+document.querySelector('#get-images--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaU').addEventListener('click', queryImages);
 
-  function postRecipeTextCallback(tabs) {
-    var currentTab = tabs[0]; // there will be only one in this array
+function getImages() {
+  var imageDataArray = Array.from(document.querySelectorAll("[style*='background-image'], img")).reduce(function(acc, imageElement) {
+    var imageSource = imageElement.getAttribute('src');
+    var backgroundImageMatch = imageElement.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/);
 
-    chrome.tabs.sendRequest(currentTab.id, {action: "getInnerHTML"}, function(response) {
-      if (response) {
-        $.ajax({
-          method: 'POST',
-          url: "https://thawing-atoll-76323.herokuapp.com/api/v1/web_recipes",
-          data: {
-            content: response.content,
-            host_origin: response.host_origin,
-            name: response.name,
-            pathname: response.pathname
-          }
-        }).done(function( data ) {
-          console.log('RESPONSE FROM THE WHOLE ENCHILADA', data);
-          var getImagesButtonElement = document.querySelector('.WholeEnchiladaRecipes__get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-          var importButtonElement = document.querySelector('.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-          var saveButtonElement = document.querySelector('.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+    if (!/(http(s?)):\/\//i.test(imageSource)) {
+      imageSource = "https:" + imageSource;
+    }
 
-          importButtonElement.setAttribute('data-recipe-id', data.recipe.id);
+    if (imageSource && imageSource.length > 0) {
+      acc.push({
+        source: imageSource,
+        alt: imageElement.getAttribute('alt')
+      })
+    } else if (backgroundImageMatch) {
+      acc.push({
+        source: backgroundImageMatch[1],
+        alt: "background image"
+      })
+    }
 
-          saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-          getImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
-        });
-      }
-    });
-  }
+    return acc;
+  }, []);
 
-  chrome.tabs.query({active: true, currentWindow: true}, postRecipeTextCallback);
-
+  return imageDataArray;
 }
 
 function queryImages() {
-  function queryImagesFromActiveTabCallback(tabs) {
-    var currentTab = tabs[0]; // there will be only one in this array
+  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id, allFrames: true},
+      func: getImages
+    }, (injectionResults) => {
 
-    chrome.tabs.sendRequest(currentTab.id, {action: "getImageElements"}, function(response) {
       var imagesSectionElement = document.querySelector('.WholeEnchiladaRecipes_images-section--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
 
       // make popup html wider
@@ -64,7 +61,7 @@ function queryImages() {
         .add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
 
       // insert images for selection into popup html
-      response.imageDataArray.forEach(function(imageData) {
+      injectionResults[0].result.forEach(function(imageData) {
         var imageElementString = "<img src='" +
           imageData.source +
           "' alt='" + imageData.alt + "' class='image--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp'>";
@@ -72,7 +69,6 @@ function queryImages() {
         imagesSectionElement.insertAdjacentHTML('afterbegin', imageElementString);
       })
 
-      // add selection event to images to add border
       Array.from(document.querySelectorAll('img.image--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp')).forEach(function(imageElement) {
         imageElement.addEventListener('click', function(event) {
           event.preventDefault();
@@ -86,8 +82,9 @@ function queryImages() {
       // show import image button
       importImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
 
+
       importImagesButtonElement
-        .addEventListener('click', function(event) {
+        .addEventListener('click', async (event) => {
           event.preventDefault();
           var recipeId = event.currentTarget.dataset.recipeId;
 
@@ -99,26 +96,102 @@ function queryImages() {
           })
 
           if (imageDataArray.length) {
-            $.ajax({
-              method: 'POST',
-              url: "https://thawing-atoll-76323.herokuapp.com/api/v1/recipes/" + recipeId + "/images",
-              data: {
-                imageDataArray: JSON.stringify(imageDataArray)
-              }
-            }).done(function( data ) {
-              console.log('RESPONSE FROM THE WHOLE ENCHILADA', data);
-              alert('Images saved!')
-            });
-          }
-        });
-    });
-  }
 
-  chrome.tabs.query({active: true, currentWindow: true}, queryImagesFromActiveTabCallback);
+            const response = await fetch("https://thewholeenchilada.cc/api/v1/recipes/" + recipeId + "/images", {
+              method: 'POST',
+              mode: 'cors',
+              cache: 'no-cache',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({imageDataArray: imageDataArray})
+            });
+
+            const imageData = await response.json()
+            console.log('RESPONSE FROM THE WHOLE ENCHILADA', imageData);
+            alert('Images saved!')
+
+          }
+        })
+    })
+  })
 }
 
+function redirectCallback() {
+  window.location.href = "https://thewholeenchilada.cc/account"
+}
 
-document.addEventListener("DOMContentLoaded", function(event) {
-  document.querySelector('#save-recipe--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaU').addEventListener('click', findOrCreateRecipe);
-  document.querySelector('#get-images--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaU').addEventListener('click', queryImages);
-});
+function postRecipeTextCallback() {
+  const body = document.querySelector('body')
+
+  return {
+    content: body.innerText,
+    host_origin: window.location.host,
+    name: window.location.host + window.location.pathname,
+    pathname: window.location.pathname
+  }
+
+}
+
+function findOrCreateRecipe() {
+
+  chrome.tabs.query({active: true, currentWindow: true}, async (tabs) => {
+    const me = await fetch('https://thewholeenchilada.cc/api/v1/me', {
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+
+    const me_data = await me.json()
+
+    if (me_data.email && me_data.id) {
+      chrome.scripting.executeScript({
+        target: {tabId: tabs[0].id, allFrames: true},
+        func: postRecipeTextCallback
+      }, async (injectionResults) => {
+
+        const response = await fetch('https://thewholeenchilada.cc/api/v1/web_recipes', {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(injectionResults[0].result)
+        });
+
+        const data = await response.json()
+        console.log('RESPONSE', data)
+
+        const getImagesButtonElement = document.querySelector('.WholeEnchiladaRecipes__get-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        const importButtonElement = document.querySelector('.WholeEnchiladaRecipes__import-images-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        const saveButtonElement = document.querySelector('.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+
+        importButtonElement.setAttribute('data-recipe-id', data.recipe.id);
+
+        saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+        getImagesButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+      })
+    } else {
+      const signInButtonElement = document.querySelector('.WholeEnchiladaRecipes__sign-in-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+      const saveButtonElement = document.querySelector('.WholeEnchiladaRecipes__save-recipe-button--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+
+      signInButtonElement.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        chrome.scripting.executeScript({
+          target: {tabId: tabs[0].id, allFrames: true},
+          func: redirectCallback
+        })
+
+      });
+
+      saveButtonElement.classList.add('WholeEnchiladaRecipes_hide--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+      signInButtonElement.classList.add('WholeEnchiladaRecipes_reveal--KZzQjJcI2kdN0Qnn7X7AgyoO8W6VBwuOPIcyztpKBaUp');
+    }
+
+  });
+}
