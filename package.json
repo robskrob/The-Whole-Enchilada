@@ -1,5 +1,8 @@
 {
   "name": "the_whole_enchilada",
+  "engines": {
+    "node": "14.18.1"
+  },
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
