@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  skip_before_filter :verify_authenticity_token, :only => :create
+  skip_before_action :verify_authenticity_token
 
   def respond_with(resource, *)
     if current_user.present?
