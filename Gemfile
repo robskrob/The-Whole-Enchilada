@@ -24,7 +24,7 @@ gem 'pagy', '3.12.0'
 gem 'rollbar', '3.2.0'
 
 gem 'searchkick', '~> 5.1'
-gem 'elasticsearch', '~> 5.0', '>= 5.0.4'
+gem 'elasticsearch', '7.17.7'
 
 
 group :production do
