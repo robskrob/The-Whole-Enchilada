@@ -26,7 +26,7 @@ gem 'rollbar', '3.2.0'
 
 group :production do
   gem 'aws-sdk-s3', '1.61.2'
-  gem 'searchkick', '4.4.2'
+  gem 'searchkick', '4.4.2', require: false
 end
 
 group :development, :test do
