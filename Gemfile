@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '2.6.10'
 
 gem 'rails', '~> 6.0.1'
 gem 'puma', '~> 4.1'
@@ -19,7 +19,7 @@ gem 'devise', '4.7.1'
 gem 'letter_opener', '1.7.0'
 gem "aws-ses-v4", require: "aws/ses"
 
-gem 'searchkick', '4.4.2'
+gem 'searchkick', '4.4.2', require: false
 gem 'pagy', '3.12.0'
 
 gem 'rollbar', '3.2.0'
