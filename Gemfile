@@ -23,10 +23,12 @@ gem 'pagy', '3.12.0'
 
 gem 'rollbar', '3.2.0'
 
+gem 'searchkick', '~> 5.1'
+gem 'elasticsearch', '~> 5.0', '>= 5.0.4'
+
 
 group :production do
   gem 'aws-sdk-s3', '1.61.2'
-  gem 'searchkick', '4.4.2', require: false
 end
 
 group :development, :test do
@@ -36,7 +38,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'searchkick', '4.4.2', require: false
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'

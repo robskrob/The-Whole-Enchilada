@@ -109,13 +109,13 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
-    elastic-transport (8.1.0)
-      faraday (< 3)
+    elasticsearch (5.0.5)
+      elasticsearch-api (= 5.0.5)
+      elasticsearch-transport (= 5.0.5)
+    elasticsearch-api (5.0.5)
       multi_json
-    elasticsearch (8.4.0)
-      elastic-transport (~> 8)
-      elasticsearch-api (= 8.4.0)
-    elasticsearch-api (8.4.0)
+    elasticsearch-transport (5.0.5)
+      faraday
       multi_json
     erubi (1.11.0)
     faraday (2.6.0)
@@ -231,9 +231,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    searchkick (4.4.2)
-      activemodel (>= 5)
-      elasticsearch (>= 6)
+    searchkick (5.1.0)
+      activemodel (>= 5.2)
       hashie
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
@@ -305,6 +304,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   devise (= 4.7.1)
   dotenv-rails (= 2.7.5)
+  elasticsearch (~> 5.0, >= 5.0.4)
   haml (~> 5.0, >= 5.0.4)
   jbuilder (~> 2.7)
   letter_opener (= 1.7.0)
@@ -316,7 +316,7 @@ DEPENDENCIES
   rollbar (= 3.2.0)
   rtesseract (= 3.1)
   sass-rails (>= 6)
-  searchkick (= 4.4.2)
+  searchkick (~> 5.1)
   selenium-webdriver
   sidekiq (= 6.0.6)
   spring
